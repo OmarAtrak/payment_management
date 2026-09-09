@@ -1,0 +1,107 @@
+<div class="block block-rounded m-0" [dir]="isRtl ? 'rtl' : 'ltr'">
+  <div class="block-header block-header-default">
+    <h3 class="block-title">{{ 'information' | translate }}</h3>
+  </div>
+  <div class="block-content">
+    <div class="row justify-content-center">
+      <div class="col">
+        <form [formGroup]="form" (ngSubmit)="submit()">
+          <!-- date -->
+          <div class="row mb-2">
+            <div class="col">
+              <label class="form-label" for="_date"><span>{{ 'date' | translate }}</span> <span class="text-danger"> *</span></label>
+              <div>
+                <input type="date" id="_date" class="form-control" formControlName="date">
+              </div>
+              <div class="row mt-1">
+                <span *ngIf="form.get('date')?.touched && !form.get('date')?.value" class="text-danger">
+                  {{ 'information_required' | translate }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- method -->
+          <div class="row mb-2">
+            <div class="col">
+              <label class="form-label" for="_paymentMethod"><span>{{ 'payment.payment_method' | translate }}</span> <span class="text-danger"> *</span></label>
+              <select class="form-select" id="_paymentMethod" formControlName="method">
+                <option [value]="PaymentMethod.CASH">{{ ('payment.method.' + PaymentMethod.CASH) | translate }}</option>
+                <option [value]="PaymentMethod.CREDIT_CARD">{{ ('payment.method.' + PaymentMethod.CREDIT_CARD) | translate }}</option>
+                <option [value]="PaymentMethod.BANK_TRANSFER">{{ ('payment.method.' + PaymentMethod.BANK_TRANSFER) | translate }}</option>
+                <option [value]="PaymentMethod.CHECK">{{ ('payment.method.' + PaymentMethod.CHECK) | translate }}</option>
+                <option [value]="PaymentMethod.AGENCY_TRANSFER">{{ ('payment.method.' + PaymentMethod.AGENCY_TRANSFER) | translate }}</option>
+                <option [value]="PaymentMethod.MOBILE_PAYMENT">{{ ('payment.method.' + PaymentMethod.MOBILE_PAYMENT) | translate }}</option>
+                <option [value]="PaymentMethod.OTHER">{{ ('payment.method.' + PaymentMethod.OTHER) | translate }}</option>
+              </select>
+              <div class="row mt-1">
+                <span *ngIf="form.get('method')?.touched && !form.get('method')?.value" class="text-danger">
+                  {{ 'information_required' | translate }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- amount -->
+          <div class="row mb-2">
+            <div class="col">
+              <label class="form-label" for="_amount"><span>{{ 'amount' | translate }}</span> <span class="text-danger"> *</span></label>
+              <div>
+                <input type="number" id="_amount" class="form-control" formControlName="amount" min="1">
+              </div>
+              <div class="row mt-1">
+                <span *ngIf="form.get('amount')?.touched && !form.get('amount')?.value" class="text-danger">
+                  {{ 'information_required' | translate }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- status -->
+          <div class="row mb-2">
+            <div class="col">
+              <label class="form-label" for="_status"><span>{{ 'status' | translate }}</span> <span class="text-danger"> *</span></label>
+              <select class="form-select" id="_status" formControlName="status">
+                <option [value]="PaymentStatus.PENDING">{{ ('payment.status.' + PaymentStatus.PENDING) | translate }}</option>
+                <option [value]="PaymentStatus.PAID">{{ ('payment.status.' + PaymentStatus.PAID) | translate }}</option>
+                <option [value]="PaymentStatus.FAILED">{{ ('payment.status.' + PaymentStatus.FAILED) | translate }}</option>
+              </select>
+              <div class="row mt-1">
+                <span *ngIf="form.get('status')?.touched && !form.get('status')?.value" class="text-danger">
+                  {{ 'information_required' | translate }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- notes -->
+          <div class="row mb-2">
+            <div class="col">
+              <label class="form-label" for="_notes"><span>{{ 'note' | translate }}</span></label>
+              <textarea id="_notes" class="form-control" cols="50" formControlName="notes"></textarea>
+            </div>
+          </div>
+
+          <div class="mb-4 mt-4">
+            <button
+              type="button"
+              class="btn btn-secondary me-2"
+              (click)="closeModal()"
+            >
+              <span>{{ 'cancel' | translate }}</span>
+            </button>
+            <button
+              type="submit"
+              class="btn me-2"
+              [class]="data.payment ? 'btn-warning' : 'btn-primary'"
+              [disabled]="!form.valid"
+            >
+              <fa-icon icon="edit" class="me-1 mx-1"></fa-icon>
+              {{ (data.payment ? 'edit' : 'submit') | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

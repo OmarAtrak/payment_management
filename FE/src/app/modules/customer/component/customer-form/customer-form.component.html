@@ -1,0 +1,112 @@
+<div class="block block-rounded" [dir]="isRtl ? 'rtl' : 'ltr'" [class.text-end]="isRtl">
+  <div class="block-header block-header-default">
+    <h3 class="block-title">{{ 'information' | translate }}</h3>
+  </div>
+  <div class="block-content">
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-8">
+        <form [formGroup]="form" (ngSubmit)="save()">
+          <div class="mb-4">
+            <div class="row mb-2">
+              <div class="col">
+                <label class="form-label" for="_name"><span>{{ 'name' | translate }} </span> <span class="text-danger"> *</span></label>
+                <input type="text" class="form-control" id="_name" formControlName="name" autocomplete="off">
+                <div class="row mt-1">
+                  <span *ngIf="form.get('name')?.touched && !form.get('name')?.value" class="text-danger">
+                    {{ 'information_required' | translate }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col col-6">
+                <div class="row mb-2">
+                  <span class="fs-4 text-primary">{{ 'address.model' | translate }}</span>
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label" for="lineOneAddress">{{ 'address.line_one' | translate }} <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="lineOneAddress" formControlName="address">
+                  <span *ngIf="form.get('address')?.touched && !form.get('address')?.value" class="text-danger">
+                    {{ 'information_required' | translate }}
+                  </span>
+                </div>
+                <!--<div class="mb-4">
+                  <label class="form-label" for="addressArabAddress">{{ 'address.addressArabAddress' | translate }}</label>
+                  <input type="text" class="form-control" id="addressArabAddress" formControlName="addressArabic">
+                </div>-->
+                <div class="mb-4">
+                  <label class="form-label" for="cityAddress">{{ 'address.city' | translate }} <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="cityAddress" formControlName="city">
+                  <div class="row mt-1">
+                    <span *ngIf="form.get('city')?.touched && !form.get('city')?.value" class="text-danger">
+                      {{ 'information_required' | translate }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col col-6">
+                <div class="row mb-2">
+                  <span class="fs-4 text-primary">{{ 'contact' | translate }}</span>
+                </div>
+                <div class="mb-4">
+                  <label class="form-label" for="email">{{ 'email' | translate }} <span class="text-danger">*</span></label>
+                  <input type="email" class="form-control" id="email" formControlName="email">
+                  <div class="row mt-1">
+                    <span *ngIf="form.get('email')?.touched && !form.get('email')?.value" class="text-danger">
+                      {{ 'information_required' | translate }}
+                    </span>
+                    <span *ngIf="form.get('email')?.touched && form.get('email')?.value && form.get('email')?.value && form.get('email')?.invalid" class="text-danger">
+                      {{ 'invalid_email' | translate }} ({{ 'example' | translate }}: 'test&#64;gmail.com')
+                    </span>
+                  </div>
+                </div>
+                <div class="mb-4">
+                  <label class="form-label" for="phoneNumber">{{ 'phone_number' | translate }} <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber" maxlength="10">
+                  <div class="row mt-1">
+                    <span *ngIf="form.get('phoneNumber')?.touched && !form.get('phoneNumber')?.value" class="text-danger">
+                      {{ 'information_required' | translate }}
+                    </span>
+                    <span *ngIf="form.get('phoneNumber')?.touched && form.get('phoneNumber')?.value && form.get('phoneNumber')?.invalid" class="text-danger">
+                      {{ 'phone_number_minimum_characters' | translate }}
+                    </span>
+                  </div>
+                </div>
+                <div class="mb-4">
+                  <label class="form-label" for="fax">{{ 'fax' | translate }}</label>
+                  <input type="text" class="form-control" id="fax" formControlName="fax">
+                  <span *ngIf="form.get('fax')?.touched && form.get('fax')?.value && form.get('fax')?.invalid" class="text-danger">
+                      {{ 'phone_number_minimum_characters' | translate }}
+                    </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <button
+                type="button"
+                class="btn btn-secondary me-2"
+                routerLink="/customers"
+              >
+                <fa-icon icon="circle-left" class="me-1 mx-1"></fa-icon>
+                <span>{{ 'back' | translate }}</span>
+              </button>
+              <button
+                type="submit"
+                class="btn me-2"
+                [class]="customer.id ? 'btn-warning' : 'btn-primary'"
+                [disabled]="!form.valid"
+              >
+                <fa-icon icon="edit" class="me-1 mx-1"></fa-icon>
+                {{ (customer.id ? 'edit' : 'submit') | translate }}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

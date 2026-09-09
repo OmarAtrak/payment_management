@@ -1,0 +1,170 @@
+<div *ngIf="!isLoading" class="text-center mt-5">
+  <div class="spinner-grow spinner-grow-sm text-success" role="status"></div>
+  <span class="h6 text-success">{{ "loading" | translate }}</span>
+</div>
+<div *ngIf="isLoading">
+  <!-- All Users -->
+  <div class="block block-rounded">
+    <!--<div class="block-header block-header-default d-flex justify-content-end">
+      <span
+        [title]="'print' | translate"
+        (click)="printPdf()"
+        class="btn btn-sm btn-secondary bg-gradient"
+      >
+        <fa-icon size="lg" icon="print"></fa-icon>
+      </span>
+    </div>-->
+    <div class="block-content">
+      <!-- Search Form -->
+      <div class="mb-1">
+        <div class="input-group">
+          <input
+            [(ngModel)]="searchKey"
+            (ngModelChange)="filterTable()"
+            type="text"
+            class="form-control form-control-alt"
+            id="inputSearch"
+            autocomplete="off"
+            [placeholder]="'search_by_name' | translate"
+          />
+          <button
+            type="button"
+            class="btn p-0 input-group-text border border-1"
+          >
+            <span class="input-group-text border-0">
+              <fa-icon icon="search"></fa-icon>
+            </span>
+          </button>
+        </div>
+      </div>
+      <!-- END Search Form -->
+
+      <hr />
+
+      <!-- All User Table -->
+      <table class="table table-sm mb-5 m-0">
+        <thead>
+          <tr>
+            <th scope="col">{{ "full_name" | translate }}</th>
+            <th scope="col">{{ "email" | translate }}</th>
+            <th scope="col">{{ "roles" | translate }}</th>
+            <th scope="col">{{ 'active' | translate}}</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="users.length > 0">
+          <tr *ngFor="let user of users">
+            <td class="p-2">
+              <span
+                [routerLink]="
+                  isThisProfileOfUserHowIsConnected(user)
+                    ? '/profile'
+                    : '/profile/' + user.email
+                "
+                style="cursor: pointer; color: #9c7000;"
+              >
+                <fa-icon icon="user" class="me-1"></fa-icon>
+                <b>{{ user.fullName }}</b>
+              </span>
+            </td>
+            <td class="p-2">
+              <a
+                *ngIf="user.email"
+                type="button"
+                class="btn btn-sm btn-link"
+                [href]="'mailto:' + user.email"
+              >
+                <fa-icon icon="envelope" class="me-1"></fa-icon>
+                {{ user.email }}
+              </a>
+            </td>
+            <td class="p-2">
+              <span
+                *ngIf="user.enabled"
+                (click)="selectedUser = user"
+                style="cursor: pointer"
+                data-bs-toggle="modal"
+                href="#userModal"
+              >
+                <fa-icon icon="edit"></fa-icon>
+              </span>
+            </td>
+            <td class="p-2">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  [class]="user.enabled ? 'bg-success' : 'bg-danger-light'"
+                  type="checkbox"
+                  [id]="'activeUser' + user.id"
+                  [checked]="user.enabled"
+                  (change)="changeStatus(user)"
+                />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="users.length == 0">
+          <tr>
+            <td colspan="4" class="p-2 text-center">
+              <span>{{ "no_user_exists" | translate }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- END All User Table -->
+    </div>
+  </div>
+  <!-- END All User -->
+
+  <div
+    class="modal fade"
+    id="userModal"
+    aria-hidden="true"
+    aria-labelledby="userModalToggleLabel"
+    tabindex="-1"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="userModalToggleLabel">
+            {{ selectedUser.fullName }}
+          </h5>
+          <button
+            id="close_button"
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body" *ngIf="roles.length == 0">
+          <div>
+            <h3>{{ 'no_roles_exists' | translate }}</h3>
+          </div>
+        </div>
+        <div class="modal-body" *ngIf="roles.length > 0">
+          <div>
+            <h3>{{ 'roles' | translate }}</h3>
+          </div>
+          <div *ngFor="let role of roles; let index = index">
+            <div>
+              <input
+                [id]="'role' + index"
+                type="checkbox"
+                class="me-1"
+                [checked]="isUserHasThisRole(role)"
+                (change)="changeRole(role)"
+              />
+              <label [for]="'role' + index">{{ role.name }}</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-warning" (click)="updateRolesUser()">
+            <fa-icon icon="edit"></fa-icon>
+            <span>{{ 'edit' | translate }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

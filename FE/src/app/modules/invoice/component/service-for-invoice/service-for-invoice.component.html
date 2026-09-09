@@ -1,0 +1,83 @@
+<div class="block block-rounded m-0" [dir]="isRtl ? 'rtl' : 'ltr'">
+  <div class="block-header block-header-default">
+    <h3 class="block-title">{{ 'information' | translate }}</h3>
+  </div>
+  <div class="block-content">
+    <div class="row justify-content-center">
+      <div class="col">
+        <form [formGroup]="form" (ngSubmit)="submitServiceItem()">
+          <div class="row mb-2">
+            <div class="col">
+              <label class="form-label"><span>{{ 'service' | translate }}</span> <span class="text-danger"> *</span></label>
+              <div>
+                <ng-select
+                  formControlName="service"
+                  [items]="services"
+                  bindLabel="name"
+                  bindValue="id"
+                  [loading]="!isLoadingAllServices"
+                  (change)="onServiceSelect($event)"
+                ></ng-select>
+              </div>
+              <div class="row mt-1">
+                <span *ngIf="form.get('service')?.touched && !form.get('service')?.value" class="text-danger">
+                  {{ 'information_required' | translate }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col">
+              <label class="form-label" for="_price"><span>{{ 'price' | translate }}</span> <span class="text-danger"> *</span></label>
+              <input type="number" class="form-control" id="_price" formControlName="price" min="1">
+              <div class="row mt-1">
+                <span *ngIf="form.get('price')?.touched && !form.get('price')?.value" class="text-danger">
+                  {{ 'information_required' | translate }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col">
+              <label class="form-label"><span>{{ 'vehicle.vehicle' | translate }}</span> <span class="text-danger"> *</span></label>
+              <div>
+                <ng-select
+                  formControlName="vehicle"
+                  [items]="data.invoice.customer.vehicles"
+                  bindLabel="vin"
+                  bindValue="id"
+                ></ng-select>
+              </div>
+              <div class="row mt-1">
+                <span *ngIf="form.get('vehicle')?.touched && !form.get('vehicle')?.value" class="text-danger">
+                  {{ 'information_required' | translate }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-4 mt-4">
+            <button
+              type="button"
+              class="btn btn-secondary me-2"
+              (click)="closeModal()"
+            >
+              <span>{{ 'cancel' | translate }}</span>
+            </button>
+            <button
+              type="submit"
+              class="btn me-2"
+              [class]="data.serviceItem ? 'btn-warning' : 'btn-primary'"
+              [disabled]="!form.valid"
+            >
+              <fa-icon icon="edit" class="me-1 mx-1"></fa-icon>
+              {{ (data.serviceItem ? 'edit' : 'submit') | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

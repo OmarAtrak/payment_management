@@ -1,0 +1,255 @@
+@if (isLoading) {
+  <div class="row mx-1 me-1 d-flex justify-content-end">
+    <div class="col-6 col-lg-3">
+      <a
+        class="block block-rounded block-link-shadow text-center link"
+        routerLink="/customers"
+      >
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold text-primary">
+            <fa-icon icon="circle-left"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm text-primary mb-0">
+            <span>{{ 'back' | translate }}</span>
+          </p>
+        </div>
+      </a>
+    </div>
+    <!--<div class="col-6 col-lg-3">
+      <a class="block block-rounded block-link-shadow text-center link" style="cursor: pointer" (click)="printPdf()">
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold text-info">
+            <fa-icon icon="print"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm text-info mb-0">
+            <span>Print</span>
+          </p>
+        </div>
+      </a>
+    </div>-->
+    <div class="col-6 col-lg-3">
+      <a
+        class="block block-rounded block-link-shadow text-center link"
+        [routerLink]="'/customers/edit/' + customer.id"
+      >
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold text-warning">
+            <fa-icon icon="edit"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm text-warning mb-0">
+            <span>{{ 'edit' | translate }}</span>
+          </p>
+        </div>
+      </a>
+    </div>
+    <div class="col-6 col-lg-3">
+      <a
+        class="block block-rounded block-link-shadow text-center link"
+        style="cursor: pointer"
+        (click)="showDialogConfirmDelete()"
+      >
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold text-danger">
+            <fa-icon icon="times"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm text-danger mb-0">
+            <span>{{ 'delete' | translate }}</span>
+          </p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="row items">
+    <div class="col order-xl-0">
+      <!-- Customer -->
+      <div class="block block-rounded">
+        <div class="block-content">
+          <!-- Customer Info -->
+          <div class="row items-push" [dir]="isRtl ? 'rtl' : 'ltr'" [class.text-end]="isRtl">
+            <div class="col-md-3">
+              <div class="row g-sm js-gallery img-fluid-100 js-gallery-enabled">
+                <div class="col-12 mb-3 text-center">
+                  <fa-icon icon="user-tie" class="img-fluid fs-2 text-muted" size="10x"></fa-icon>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="d-flex flex-column justify-content-center">
+                <div class="fs-3 fw-semibold">{{ capitalizeFirstLetter(customer.name) }} <fa-icon icon="star" class="text-warning mx-1" *ngIf="customer.hasLoyaltyCard" /></div>
+                <div>{{ 'code' | translate }} : {{ capitalizeFirstLetter(customer.code) }}</div>
+                <div>
+                  <input
+                    id="loyaltyCard" type="checkbox"
+                    [checked]="customer.hasLoyaltyCard" (click)="handleToggleLoyaltyCard()"
+                  >
+                  <label for="loyaltyCard" class="mx-2">
+                    {{ 'loyalty-card' | translate }}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="card p-3 mb-2">
+                <h6>
+                  <fa-icon icon="map-pin" class="text-danger"></fa-icon>
+                  <span class="mx-1">{{ 'address.model' | translate }}</span>
+                </h6>
+                <div *ngIf="customer.address">
+                  <div class="text-muted">
+                    <div>
+                      <span class="text-black">{{ 'address.line_one' | translate }}</span>:
+                      {{ customer.address.address }}
+                    </div>
+                    <div>
+                      <span class="text-black">{{ 'address.city' | translate }}</span>:
+                      {{ customer.address.city }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card p-3">
+                <h6>
+                  <fa-icon icon="address-card" class="text-info-emphasis"></fa-icon>
+                  <span class="mx-1">{{ 'contact' | translate }}</span>
+                </h6>
+                <div *ngIf="customer.contact">
+                  <div class="text-muted">
+                    <div>
+                      <span class="text-black">{{ 'email' | translate }}</span>:
+                      {{ customer.contact.email }}
+                    </div>
+                    <div>
+                      <span class="text-black">{{ 'phone_number' | translate }}</span>:
+                      {{ customer.contact.phoneNumber }}
+                    </div>
+                    <div>
+                      <span class="text-black">{{ 'fax' | translate }}</span>:
+                      {{ customer.contact.fax }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="row">
+            <div class="row mt-2 d-flex justify-content-between pe-0">
+              <div class="col">
+                <span class="fs-4 m-0">{{ 'route.vehicles' | translate }}</span>
+              </div>
+
+              <div class="col pe-0">
+                <span class="float-end">
+                  <button
+                    class="btn btn-sm btn-primary me-0"
+                    (click)="openVehicleCustomerFormForAddDialog()"
+                  >
+                    <fa-icon icon="plus-square" class="me-1"></fa-icon>
+                    {{ 'add' |  translate }}
+                  </button>
+                </span>
+              </div>
+            </div>
+
+            <div class="p-2 mt-2">
+              <!-- Desktop Table View -->
+              <table class="table table-sm d-none d-md-table">
+                <thead>
+                  <tr>
+                    <th class="col">{{ 'vehicle.model' |  translate }}</th>
+                    <th class="col">{{ 'vehicle.vin' |  translate }}</th>
+                    <th class="col">{{ 'vehicle.manufactureYear' |  translate }}</th>
+                    <th class="col">{{ 'vehicle.registrationNumber' |  translate }}</th>
+                    <th class="col">{{ 'vehicle.color' |  translate }}</th>
+                    <th class="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let vehicle of customer.vehicles">
+                    <td>{{ vehicle.model }}</td>
+                    <td>{{ vehicle.vin }}</td>
+                    <td>{{ vehicle.manufactureYear }}</td>
+                    <td>{{ vehicle.registrationNumber }}</td>
+                    <td>{{ vehicle.color }}</td>
+                    <td>
+                      <div class="d-flex justify-content-end">
+                        <fa-icon
+                          icon="square-pen" size="xl"
+                          style="cursor: pointer" class="text-warning me-2"
+                          (click)="openVehicleCustomerFormForEditDialog(vehicle)"
+                        ></fa-icon>
+                        <fa-icon
+                          icon="trash-alt" size="lg"
+                          style="cursor: pointer" class="text-danger me-1"
+                          (click)="confirmDeleteVehicle(vehicle)"
+                        ></fa-icon>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- Mobile Card View -->
+              <div class="d-md-none">
+                <div class="card mb-3" *ngFor="let vehicle of customer.vehicles">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                      <h6 class="card-title mb-0 fw-semibold">{{ vehicle.model }}</h6>
+                      <div>
+                        <fa-icon
+                          icon="square-pen" size="lg"
+                          style="cursor: pointer" class="text-warning me-2"
+                          (click)="openVehicleCustomerFormForEditDialog(vehicle)"
+                        ></fa-icon>
+                        <fa-icon
+                          icon="trash-alt" size="lg"
+                          style="cursor: pointer" class="text-danger"
+                          (click)="confirmDeleteVehicle(vehicle)"
+                        ></fa-icon>
+                      </div>
+                    </div>
+                    <div class="row g-2 text-muted small">
+                      <div class="col-6">
+                        <span class="fw-medium text-dark">{{ 'vehicle.vin' | translate }}:</span>
+                        <br>{{ vehicle.vin }}
+                      </div>
+                      <div class="col-6">
+                        <span class="fw-medium text-dark">{{ 'vehicle.manufactureYear' | translate }}:</span>
+                        <br>{{ vehicle.manufactureYear }}
+                      </div>
+                      <div class="col-6">
+                        <span class="fw-medium text-dark">{{ 'vehicle.registrationNumber' | translate }}:</span>
+                        <br>{{ vehicle.registrationNumber }}
+                      </div>
+                      <div class="col-6">
+                        <span class="fw-medium text-dark">{{ 'vehicle.color' | translate }}:</span>
+                        <br>{{ vehicle.color }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END Customer -->
+    </div>
+  </div>
+} @else {
+  <div class="text-center mt-5 mb-5">
+    <div class="spinner-grow spinner-grow-sm text-success" role="status"></div>
+    <span class="h6 text-success">{{ 'loading' | translate }}</span>
+  </div>
+}

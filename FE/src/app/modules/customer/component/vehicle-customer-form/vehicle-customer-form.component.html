@@ -1,0 +1,86 @@
+<div class="block block-rounded m-0" [dir]="isRtl ? 'rtl' : 'ltr'">
+  <div class="block-header block-header-default">
+    <h3 class="block-title">{{ 'information' | translate }}</h3>
+  </div>
+  <div class="block-content">
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-8">
+        <form [formGroup]="form" (ngSubmit)="save()">
+          <div class="row mb-2">
+            <div class="col">
+              <label class="form-label" for="_model"><span>{{ 'vehicle.model' | translate }}</span> <span class="text-danger"> *</span></label>
+              <input type="text" class="form-control" id="_model" formControlName="model" autocomplete="off">
+              <div class="row mt-1">
+                <span *ngIf="form.get('model')?.touched && !form.get('model')?.value" class="text-danger">
+                  {{ 'information_required' | translate }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col">
+              <label class="form-label" for="_vin"><span>{{ 'vehicle.vin' | translate }}</span> <span class="text-danger"> *</span></label>
+              <input type="text" class="form-control" id="_vin" formControlName="vin" autocomplete="off">
+              <div class="row mt-1">
+                <span *ngIf="form.get('vin')?.touched && !form.get('vin')?.value" class="text-danger">
+                  {{ 'information_required' | translate }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col">
+              <label class="form-label" for="_manufactureYear"><span>{{ 'vehicle.manufactureYear' | translate }}</span> <span class="text-danger"> *</span></label>
+              <input type="text" class="form-control" id="_manufactureYear" formControlName="manufactureYear" autocomplete="off">
+              <div class="row mt-1">
+                <span *ngIf="form.get('manufactureYear')?.touched && !form.get('manufactureYear')?.value" class="text-danger">
+                  {{ 'information_required' | translate }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col">
+              <label class="form-label" for="_registrationNumber"><span>{{ 'vehicle.registrationNumber' | translate }}</span> <span class="text-danger"> *</span></label>
+              <input type="text" class="form-control" id="_registrationNumber" formControlName="registrationNumber" autocomplete="off">
+              <div class="row mt-1">
+                <span *ngIf="form.get('registrationNumber')?.touched && !form.get('registrationNumber')?.value" class="text-danger">
+                  {{ 'information_required' | translate }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col">
+              <label class="form-label" for="_color"><span>{{ 'vehicle.color' | translate }}</span></label>
+              <input type="text" class="form-control" id="_color" formControlName="color" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <button
+              type="button"
+              class="btn btn-secondary me-2"
+              (click)="closeModal()"
+            >
+              <span>{{ 'cancel' | translate }}</span>
+            </button>
+            <button
+              type="submit"
+              class="btn me-2"
+              [class]="data.vehicle ? 'btn-warning' : 'btn-primary'"
+              [disabled]="!form.valid"
+            >
+              <fa-icon icon="edit" class="me-1 mx-1"></fa-icon>
+              {{ (data.vehicle ? 'edit' : 'submit') | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,103 @@
+<div class="block block-rounded" [dir]="isRtl ? 'rtl' : 'ltr'" [class.text-end]="isRtl">
+  <div class="block-header block-header-default">
+    <h3 class="block-title">{{ 'information' | translate }}</h3>
+  </div>
+  <div class="block-content">
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-8">
+        <form [formGroup]="form" (ngSubmit)="save()">
+          <div class="mb-4">
+            <div class="row mb-2">
+              <div class="col">
+                <label class="form-label" for="_code"><span>{{ 'code' | translate }}</span> <span class="text-danger"> *</span></label>
+                <input type="text" class="form-control" id="_code" formControlName="code" autocomplete="off">
+                <div class="row mt-1">
+                  <span *ngIf="form.get('code')?.touched && !form.get('code')?.value" class="text-danger">
+                    {{ 'information_required' | translate }}
+                  </span>
+                </div>
+              </div>
+              <div class="col">
+                <label class="form-label" for="_name"><span>{{ 'name' | translate }} </span> <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="_name" formControlName="name" autocomplete="off">
+                <div class="row mt-1">
+                  <span *ngIf="form.get('name')?.touched && !form.get('name')?.value" class="text-danger">
+                    {{ 'information_required' | translate }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="col">
+                <label class="form-label" for="_description"><span>{{ 'description' | translate }}</span></label>
+                <div class="row" dir="ltr">
+                  <quill-editor
+                    id="_description"
+                    formControlName="description"
+                    [modules]="quillConfig"
+                    [styles]="{height: '220px'}"
+                  >
+                  </quill-editor>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row p-0 m-0">
+                  <label class="form-label" for="_price"><span>{{ 'price' | translate }} </span> <span class="text-danger">*</span></label>
+                  <input type="number" class="form-control" id="_price" formControlName="price" min="0" autocomplete="off">
+                  <div class="row mt-1">
+                    <span *ngIf="form.get('price')?.touched && !form.get('price')?.value" class="text-danger">
+                      {{ 'information_required' | translate }}
+                    </span>
+                    <br>
+                    <span *ngIf="form.get('price')?.value < 0" class="text-danger">
+                      {{ 'price-must-be-greater-than-to-0' | translate }}
+                    </span>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <label class="form-label"><span>{{ 'tax' | translate }} </span> <span class="text-danger">*</span></label>
+                  <div>
+                    <ng-select
+                      [items]="taxes"
+                      bindLabel="name"
+                      bindValue="id"
+                      formControlName="tax"
+                      [loading]="!isLoadingTaxes"
+                    >
+                    </ng-select>
+                  </div>
+                  <div class="row mt-1">
+                    <span *ngIf="form.get('tax')?.touched && !form.get('tax')?.value" class="text-danger">
+                      {{ 'information_required' | translate }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <button
+              type="button"
+              class="btn btn-secondary me-2"
+              routerLink="/services"
+            >
+              <fa-icon icon="circle-left" class="me-1 mx-1"></fa-icon>
+              <span>{{ 'back' | translate }}</span>
+            </button>
+            <button
+              type="submit"
+              class="btn me-2"
+              [class]="service.id ? 'btn-warning' : 'btn-primary'"
+              [disabled]="!form.valid"
+            >
+              <fa-icon icon="edit" class="me-1 mx-1"></fa-icon>
+              {{ (service.id ? 'edit' : 'submit') | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,4 @@
+ng serve // execute application in localhost
+ng extract-i18n --output-path src/locale // create traduction file
+ng build --localize // build application with i18n traduction
+serve dist/angular-course // execute builder application in localhost

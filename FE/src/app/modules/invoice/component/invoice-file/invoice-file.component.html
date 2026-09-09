@@ -1,0 +1,131 @@
+<!-- Invoice -->
+<div class="block block-rounded m-0">
+  <div class="block-header block-header-default">
+    <h3 class="block-title">{{ invoice.code }}</h3>
+<!--    <div class="block-options">-->
+<!--      <button type="button" class="btn-block-option" (click)="printInvoice()">-->
+<!--        <fa-icon icon="print"></fa-icon> {{ 'print' | translate }}-->
+<!--      </button>-->
+<!--    </div>-->
+  </div>
+  <div class="block-content m-0">
+    <div class="m-0">
+      <!-- Invoice Info -->
+      <div class="row overflow-y-scroll">
+        <!-- Company Info -->
+        <div class="col-6 fs-sm">
+          <p class="fs-3 mt-0 pt-0">{{ 'company.model' | translate }}</p>
+          <div>
+            <span class="fs-4">{{ company.name }}</span><br>
+            <address>
+              {{ company.contact.phoneNumber }}<br>
+              {{ company.contact.email }}
+            </address>
+          </div>
+        </div>
+        <!-- END Company Info -->
+
+        <!-- Client Info -->
+        <div class="col-6 text-end fs-sm">
+          <p class="fs-3 mt-0 pt-0">{{ 'customer' | translate }}</p>
+          <span class="fs-4">{{ invoice.customer.name }}</span><br>
+          <address>
+            {{ invoice.customer.address.address }}<br>
+            {{ capitalizeFirstLetter(invoice.customer.address.city) }}<br>
+          </address>
+        </div>
+        <!-- END Client Info -->
+      </div>
+      <!-- END Invoice Info -->
+
+      <!-- Table -->
+      <div class="table-responsive" [dir]="isRtl ? 'rtl' : 'ltr'" [class.text-end]="isRtl">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 60px;"></th>
+              <th class="col text-center">{{ 'name' | translate }}</th>
+              <th class="col col-auto text-center">{{ 'tva' | translate }}</th>
+              <th class="col col-auto text-center">{{ 'P.U HT' | translate }}</th>
+              <th class="col col-auto text-center">{{ 'quantity' | translate }}</th>
+              <th class="col col-auto text-center">{{ 'invoice.amount_ht' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (productItem of invoice.products; track productItem.id; let i = $index) {
+              <tr>
+                <td class="text-center">{{ i + 1 }}</td>
+                <td>
+                  <p class="fw-semibold mb-1">{{ capitalizeFirstLetter(productItem.product.name) }}</p>
+                  <!--                      <div class="text-muted">Design/Development of iOS and Android application</div>-->
+                </td>
+                <td class="text-center">
+                  {{ productItem.product.tax.percentRate }}
+                </td>
+                <td class="text-center" [dir]="isRtl ? 'rtl' : 'ltr'">
+                  {{ productItem.priceHT | number : '2.2-2' }} {{ 'dh' | translate }}
+                </td>
+                <td class="text-center">
+                  <span class="badge rounded-pill bg-primary">{{ productItem.quantity }}</span>
+                </td>
+                <td class="text-right">
+                  {{ productItem.totalHT | number : '2.2-2' }} {{ 'dh' | translate }}
+                </td>
+              </tr>
+            }
+
+            @for (serviceItem of invoice.services; track serviceItem.id; let i = $index) {
+              <tr>
+                <td class="text-center">{{ invoice.products.length + (i + 1) }}</td>
+                <td colspan="4">
+                  <p class="fw-semibold mb-1">{{ capitalizeFirstLetter(serviceItem.service.name) }}</p>
+                  <!--                      <div class="text-muted">Design/Development of iOS and Android application</div>-->
+                </td>
+                <td class="text-right" [dir]="isRtl ? 'rtl' : 'ltr'">
+                  {{ serviceItem.price | number : '2.2-2' }} {{ 'dh' | translate }}
+                </td>
+              </tr>
+            }
+
+          <tr dir="ltr">
+            <td colspan="5" class="fw-semibold" [class.text-start]="isRtl">
+              {{ 'invoice.amount_ht' | translate }}
+              <span class="fs-sm text-muted">({{ 'products' | translate }})</span>
+            </td>
+            <td class="text-right" [dir]="isRtl ? 'rtl' : 'ltr'">
+              {{ invoice.totalProductsHT | number :'1.2-2' }} {{ 'dh' | translate }}
+            </td>
+          </tr>
+          <tr dir="ltr">
+            <td colspan="5" class="fw-semibold" [class.text-start]="isRtl">
+              {{ 'invoice.amount_ht' | translate }}
+              <span class="fs-sm text-muted">({{ 'route.services'  | translate }})</span>
+            </td>
+            <td class="text-right" [dir]="isRtl ? 'rtl' : 'ltr'">
+              {{ invoice.totalServicesHT | number :'1.2-2' }} {{ 'dh' | translate }}
+            </td>
+          </tr>
+          <tr dir="ltr">
+            <td colspan="5" class="fw-semibold" [class.text-start]="isRtl">{{ 'invoice.amount_tva' | translate }}</td>
+            <td class="text-right" [dir]="isRtl ? 'rtl' : 'ltr'">
+              {{ invoice.totalProductsTVA | number :'1.2-2' }} {{ 'dh' | translate }}
+            </td>
+          </tr>
+          <tr dir="ltr">
+            <td colspan="5" class="fw-bold text-uppercase bg-body-light" [class.text-start]="isRtl">
+              {{ 'total_invoice' | translate }}
+            </td>
+            <td class="fw-bold bg-body-light">
+              <span class="fw-bolder text-right" [dir]="isRtl ? 'rtl' : 'ltr'">
+                {{ invoice.totalTTC | number :'1.2-2' }} {{ 'dh' | translate }}
+              </span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- END Table -->
+    </div>
+  </div>
+</div>
+<!-- END Invoice -->

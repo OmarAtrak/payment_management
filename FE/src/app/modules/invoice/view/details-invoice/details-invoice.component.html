@@ -1,0 +1,512 @@
+@if (isLoading) {
+  <div class="row d-flex justify-content-end">
+    <div class="col">
+      <a
+        class="block block-rounded block-link-shadow text-center link"
+        routerLink="/invoices"
+      >
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold text-primary">
+            <fa-icon icon="circle-left"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm text-primary mb-0">
+            <span>{{ 'back' | translate }}</span>
+          </p>
+        </div>
+      </a>
+    </div>
+    <div class="col" *ngIf="invoice.status == invoiceStatus.DRAFT">
+      <a
+        class="block block-rounded block-link-shadow text-center link"
+        style="cursor: pointer"
+        (click)="changeStatus(invoiceStatus.POSTED)"
+      >
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold">
+            <fa-icon icon="circle-check" class="text-success"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm mb-0 text-success">
+            {{ 'invoice.status.POSTED' | translate }}
+          </p>
+        </div>
+      </a>
+    </div>
+    <div class="col" *ngIf="invoice.status == invoiceStatus.DRAFT">
+      <a
+        class="block block-rounded block-link-shadow text-center link"
+        style="cursor: pointer"
+        (click)="changeStatus(invoiceStatus.VOIDED)"
+      >
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold">
+            <fa-icon icon="circle-xmark" class="text-danger"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm mb-0 text-danger">
+            {{ 'invoice.status.VOIDED' | translate }}
+          </p>
+        </div>
+      </a>
+    </div>
+    <div class="col">
+      <a
+        class="block block-rounded block-link-shadow text-center link"
+        style="cursor: pointer"
+        (click)="printPdf()"
+      >
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold">
+            <fa-icon icon="file-pdf" class="text-info"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm mb-0 text-info" dir="rtl">
+            {{ 'generate-pdf' | translate }}
+          </p>
+        </div>
+      </a>
+    </div>
+    <div class="col">
+      <a
+        class="block block-rounded block-link-shadow text-center link"
+        style="cursor: pointer"
+        (click)="printBon()"
+      >
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold">
+            <fa-icon icon="print" class="text-info"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm mb-0 text-info" dir="rtl">
+            {{ 'generate-bon' | translate }}
+          </p>
+        </div>
+      </a>
+    </div>
+
+    @if (invoice.status == invoiceStatus.DRAFT) {
+      <div class="col-6 col-lg-2">
+        <a
+          class="block block-rounded block-link-shadow text-center link"
+          [routerLink]="'/invoices/edit/' + invoice.id"
+        >
+          <div class="block-content block-content-full">
+            <div class="fs-2 fw-semibold text-warning">
+              <fa-icon icon="edit"></fa-icon>
+            </div>
+          </div>
+          <div class="block-content py-2 bg-body-light">
+            <p class="fw-medium fs-sm text-warning mb-0">
+              <span>{{ 'edit' | translate }}</span>
+            </p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-lg-2">
+        <a
+          class="block block-rounded block-link-shadow text-center link"
+          style="cursor: pointer"
+          (click)="showDialogConfirmDelete()"
+        >
+          <div class="block-content block-content-full">
+            <div class="fs-2 fw-semibold text-danger">
+              <fa-icon icon="times"></fa-icon>
+            </div>
+          </div>
+          <div class="block-content py-2 bg-body-light">
+            <p class="fw-medium fs-sm text-danger mb-0">
+              <span>{{ 'delete' | translate }}</span>
+            </p>
+          </div>
+        </a>
+      </div>
+    }
+  </div>
+
+
+
+  <div class="row" [dir]="isRtl ? 'rtl' : 'ltr'" [class.text-end]="isRtl">
+    <div class="col order-xl-0">
+      <!-- Invoice -->
+      <div class="block block-rounded">
+        <div class="block-content">
+          <!-- Invoice -->
+          <div class="row items-push">
+            <div class="col-md-3">
+              <div class="row g-sm js-gallery img-fluid-100 js-gallery-enabled">
+                <div class="col-12 mb-3 text-center">
+                  <fa-icon icon="file-invoice" class="img-fluid fs-2 text-muted" size="10x"></fa-icon>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-9">
+              <!-- Info -->
+              <div>
+                <div class="col col-auto">
+                  <div class="fs-3 fw-semibold">{{ capitalizeFirstLetter(invoice.code) }}</div>
+                  <div>{{ 'date' | translate }} : {{ invoice.date | date : 'dd/MM/yyyy' }}</div>
+                  <div>{{ 'customer' | translate }} : {{ invoice.customer.name }} <fa-icon icon="star" class="text-warning mx-1" *ngIf="invoice.customer.hasLoyaltyCard" /></div>
+                  <div>{{ 'status' | translate }} : <span [class]="invoice.classStyle">{{ ('invoice.status.' + invoice.status) | translate }}</span></div>
+                </div>
+                <div class="mt-3">
+                  <div class="row mt-2 pe-0">
+                    <div class="col">
+                      <span class="fs-4 m-0">{{ 'route.vehicles' | translate }}</span>
+                    </div>
+                  </div>
+
+                  <div class="mt-2">
+                    <!-- Desktop Table View -->
+                    <table class="table table-sm d-none d-md-table">
+                      <thead>
+                        <tr>
+                          <th class="col">{{ 'vehicle.model' |  translate }}</th>
+                          <th class="col">{{ 'vehicle.vin' |  translate }}</th>
+                          <th class="col">{{ 'vehicle.manufactureYear' |  translate }}</th>
+                          <th class="col">{{ 'vehicle.registrationNumber' |  translate }}</th>
+                          <th class="col">{{ 'vehicle.color' |  translate }}</th>
+                          <th class="col"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let vehicle of invoice.customer.vehicles">
+                          <td>{{ vehicle.model }}</td>
+                          <td>{{ vehicle.vin }}</td>
+                          <td>{{ vehicle.manufactureYear }}</td>
+                          <td>{{ vehicle.registrationNumber }}</td>
+                          <td>{{ vehicle.color }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <!-- Mobile Card View -->
+                    <div class="d-md-none">
+                      <div class="card mb-3" *ngFor="let vehicle of invoice.customer.vehicles">
+                        <div class="card-body">
+                          <div class="d-flex align-items-start mb-2">
+                            <h6 class="card-title mb-0 fw-semibold">{{ vehicle.model }}</h6>
+                          </div>
+                          <div class="row g-2 text-muted small">
+                            <div class="col-6">
+                              <span class="fw-medium text-dark">{{ 'vehicle.vin' | translate }}:</span>
+                              <br>{{ vehicle.vin }}
+                            </div>
+                            <div class="col-6">
+                              <span class="fw-medium text-dark">{{ 'vehicle.manufactureYear' | translate }}:</span>
+                              <br>{{ vehicle.manufactureYear }}
+                            </div>
+                            <div class="col-6">
+                              <span class="fw-medium text-dark">{{ 'vehicle.registrationNumber' | translate }}:</span>
+                              <br>{{ vehicle.registrationNumber }}
+                            </div>
+                            <div class="col-6">
+                              <span class="fw-medium text-dark">{{ 'vehicle.color' | translate }}:</span>
+                              <br>{{ vehicle.color }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- END Info -->
+            </div>
+          </div>
+          <!-- END Invoice -->
+
+          <!-- Products  in Invoice -->
+          <div class="row items-push mt-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="fs-3 px-0">{{ 'route.products' | translate }}</span>
+              <button
+                type="button"
+                class="btn btn-sm btn-primary"
+                (click)="openProductItemDialog()"
+                *ngIf="invoice.status == invoiceStatus.DRAFT"
+              >
+                <fa-icon icon="plus"></fa-icon> {{ 'add' | translate }}
+              </button>
+            </div>
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <td class="col">{{ 'name' | translate }}</td>
+                  <td class="col">{{ 'price' | translate }}</td>
+                  <td class="col">{{ 'quantity' | translate }}</td>
+                  <td class="col">{{ 'tva' | translate }}</td>
+                  <td class="col">{{ 'invoice.amount_ht' | translate }}</td>
+                  <td class="col">{{ 'invoice.amount_ttc' | translate }}</td>
+                  <td class="col col-1"></td>
+                </tr>
+              </thead>
+              <tbody>
+                @for (productItem of invoice.products; track productItem.id) {
+                  <tr>
+                    <td>{{ productItem.product.name }}</td>
+                    <td>{{ productItem.priceHT | number : '2.2-2' }} {{ 'dh' | translate }}</td>
+                    <td>{{ productItem.quantity }}</td>
+                    <td>{{ productItem.tax.percentRate }}</td>
+                    <td>{{ productItem.totalHT | number : '2.2-2' }} {{ 'dh' | translate }}</td>
+                    <td>{{ productItem.totalTTC | number : '2.2-2' }} {{ 'dh' | translate }}</td>
+                    <td class="d-flex justify-content-end px-3">
+                      @if (invoice.status == invoiceStatus.DRAFT) {
+                        <!-- edit -->
+                        <button class="btn btn-sm btn-warning me-1 mx-1" type="button" (click)="openProductItemDialog(productItem)">
+                          <fa-icon icon="edit"></fa-icon>
+                        </button>
+                        <!-- delete -->
+                        <button class="btn btn-sm btn-danger" type="button" (click)="showDialogConfirmDeleteProductItem(productItem)">
+                          <fa-icon icon="times"></fa-icon>
+                        </button>
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          <!-- END Products in Invoice -->
+
+
+          <!-- Services in Invoice -->
+          <div class="row items-push mt-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="fs-3 px-0">{{ 'route.services' | translate }}</span>
+              <button
+                type="button"
+                class="btn btn-sm btn-primary"
+                (click)="openServiceItemDialog()"
+                *ngIf="invoice.status == invoiceStatus.DRAFT"
+              >
+                <fa-icon icon="plus"></fa-icon> {{ 'add' | translate }}
+              </button>
+            </div>
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <td class="col">{{ 'name' | translate }}</td>
+                  <td class="col">{{ 'price' | translate }}</td>
+                  <td class="col">{{ 'tva' | translate }}</td>
+                  <td class="col">{{ 'invoice.amount_ttc' | translate }}</td>
+                  <td class="col">{{ 'vehicle.vehicle' | translate }}</td>
+                  <td class="col col-1"></td>
+                </tr>
+              </thead>
+              <tbody>
+                @for (serviceItem of invoice.services; track serviceItem.id) {
+                  <tr>
+                    <td>{{ serviceItem.service.name }}</td>
+                    <td>{{ serviceItem.price | number : '2.2-2' }} {{ 'dh' | translate }}</td>
+                    <td>
+                      @if (serviceItem.tax) {
+                        {{ serviceItem.tax.percentRate }}
+                      }
+                    </td>
+                    <td>
+                      @if (serviceItem.priceTTC) {
+                        {{ serviceItem.priceTTC | number : '2.2-2' }} {{ 'dh' | translate }}
+                      }
+                    </td>
+                    <td>{{ serviceItem.vehicle.model }} ({{ serviceItem.vehicle.vin }})</td>
+                    <td class="d-flex justify-content-end px-3">
+                      @if (invoice.status == invoiceStatus.DRAFT) {
+                        <!-- edit -->
+                        <button class="btn btn-sm btn-warning me-1 mx-1" type="button" (click)="openServiceItemDialog(serviceItem)">
+                          <fa-icon icon="edit"></fa-icon>
+                        </button>
+                        <!-- delete -->
+                        <button class="btn btn-sm btn-danger" type="button" (click)="showDialogConfirmDeleteServiceItem(serviceItem)">
+                          <fa-icon icon="times"></fa-icon>
+                        </button>
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          <!-- END Services in Invoice -->
+
+          <div
+            *ngIf="invoice.services.length > 0 && invoice.customer.hasLoyaltyCard && invoice.status == invoiceStatus.DRAFT"
+            class="row d-flex justify-content-start mt-2"
+          >
+            <div class="col-auto">
+              <input type="checkbox" name="discountInputCheckBox" id="discountInputCheckBox" (click)="toggleShowDiscountColumn()">
+            </div>
+            <div class="col-auto">
+              <label for="discountInputCheckBox" class="ms-2">{{ 'edit' | translate }}</label>
+            </div>
+            <div class="col-auto">
+              <input
+                type="number" name="discountInput" id="discountInput" class="ms-3"
+                [disabled]="!showDiscountColumn" [(ngModel)]="discountValue"
+                min="0" max="100" placeholder="10"
+              >
+            </div>
+            <div class="col-auto">
+              <button class="btn btn-sm btn-secondary ms-3" type="button" (click)="toggleDiscountColumn()" *ngIf="showDiscountColumn">
+                {{ 'submit' | translate }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Payments of Invoice -->
+          <div class="row items-push mt-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="fs-3 px-0">{{ 'payments' | translate }}</span>
+              <button
+                type="button"
+                class="btn btn-sm btn-primary"
+                (click)="openPaymentDialog()"
+              >
+                <fa-icon icon="plus"></fa-icon> {{ 'add' | translate }}
+              </button>
+            </div>
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <td class="col">{{ 'code' | translate }}</td>
+                  <td class="col">{{ 'date' | translate }}</td>
+                  <td class="col">{{ 'payment.payment_method' | translate }}</td>
+                  <td class="col">{{ 'amount' | translate }}</td>
+                  <td class="col">{{ 'note' | translate }}</td>
+                  <td class="col col-2"></td>
+                </tr>
+              </thead>
+              <tbody>
+                @for (payment of invoice.payments; track payment.id) {
+                  <tr>
+                    <td>{{ payment.code }}</td>
+                    <td>{{ payment.date | date : 'dd/MM/yyyy' }}</td>
+                    <td>{{ ('payment.method.' + payment.paymentMethod) | translate }}</td>
+                    <td>
+                      <span>
+                        {{ payment.amount | number : '2.2-2' }} {{ 'dh' | translate }}
+                      </span>
+                      <fa-icon
+                        [class]="payment.classStatus"
+                        [icon]="payment.iconOfStatus"
+                        [matTooltip]="('payment.status.' + payment.status) | translate"
+                        matTooltipPosition="above"
+                      />
+                    </td>
+                    <td>{{ payment.notes }}</td>
+                    <td class="d-flex justify-content-end px-3">
+                      <!-- print -->
+                      <button class="btn btn-sm btn-info me-1 mx-1" type="button" (click)="generatePaymentPdf(payment)">
+                        <fa-icon icon="file-pdf"></fa-icon>
+                      </button>
+                      <!-- edit -->
+                      <button class="btn btn-sm btn-warning me-1 mx-1" type="button" (click)="openPaymentDialog(payment)">
+                        <fa-icon icon="edit"></fa-icon>
+                      </button>
+                      <!-- delete -->
+                      <button class="btn btn-sm btn-danger" type="button" (click)="showDialogConfirmDeletePayment(payment)">
+                        <fa-icon icon="times"></fa-icon>
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          <!-- END Service in Invoice -->
+
+          <!-- Total Invoice -->
+          <div class="row pt-5" dir="ltr">
+            <div class="col-md-7">
+            </div>
+            <div class="col-md-5" [dir]="isRtl ? 'rtl' : 'ltr'" [class.text-end]="isRtl">
+              <table class="table table-borderless">
+                <tbody>
+                  <!-- total products -->
+                  <tr class="table-active">
+                    <td>
+                      {{ 'invoice.amount_ht' | translate }}
+                      <span class="fs-sm text-muted">({{ 'products' | translate }})</span>
+                    </td>
+                    <td class="text-right">
+                      {{ invoice.totalProductsHT | number :'1.2-2' }} {{ 'dh' | translate }}
+                    </td>
+                  </tr>
+                  <!-- total services -->
+                  <tr class="table-active">
+                    <td>
+                      {{ 'invoice.amount_ht' | translate }}
+                      <span class="fs-sm text-muted">({{ 'route.services' | translate }})</span>
+                    </td>
+                    <td class="text-right">
+                      {{ invoice.totalServicesHT | number :'1.2-2' }} {{ 'dh' | translate }}
+                    </td>
+                  </tr>
+                  <!-- discount -->
+                  <tr class="table-active">
+                    <td>
+                      {{ 'loyalty-discount' | translate }}
+                      <span class="fs-sm text-muted">({{ 'route.services' | translate }})</span>
+                    </td>
+                    <td class="text-right">
+                      {{ invoice.discount }}% ({{ invoice.discountValueForServices | number :'1.2-2' }} {{ 'dh' | translate }})
+                    </td>
+                  </tr>
+                  <!-- total VAT -->
+                  <tr class="table-active">
+                    <td>{{ 'invoice.amount_tva' | translate }}</td>
+                    <td class="text-right">
+                      {{ invoice.totalTVA | number :'1.2-2' }} {{ 'dh' | translate }}
+                    </td>
+                  </tr>
+                  <!-- total TTC -->
+                  <tr class="table-active border-top border-black">
+                    <td class="fw-bold">{{ 'total_invoice' | translate }}</td>
+                    <td class="text-right">
+                      <span class="" [class]="invoice.discount > 0 ? 'text-decoration-line-through text-muted' : 'fw-bolder'">
+                        {{ invoice.totalTTC | number :'1.2-2' }} {{ 'dh' | translate }}
+                      </span>
+
+                      @if (invoice.discount > 0) {
+                        <br>
+                        <span class="fw-bolder">
+                          {{ invoice.totalTTCAfterDiscount | number :'1.2-2' }} {{ 'dh' | translate }}
+                        </span>
+                      }
+                    </td>
+                  </tr>
+                  <!-- amount paid -->
+                  <tr class="table-active">
+                    <td>{{ 'invoice.amount_paid' | translate }}</td>
+                    <td class="text-right" [class]="invoice.totalPaymentPaid > 0 ? 'text-success' : ''">
+                      {{ invoice.totalPaymentPaid | number :'1.2-2' }} {{ 'dh' | translate }}
+                    </td>
+                  </tr>
+                  <!-- remaining amount -->
+                  <tr class="table-active">
+                    <td>{{ 'invoice.remaining_amount' | translate }}</td>
+                    <td class="text-right" [class]="invoice.totalPaymentRemaining > 0 ? 'text-danger' : ''">
+                      {{ invoice.totalPaymentRemaining | number :'1.2-2' }} {{ 'dh' | translate }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- End Total Invoice -->
+        </div>
+      </div>
+      <!-- END Invoice -->
+    </div>
+  </div>
+} @else {
+  <div class="text-center mt-5 mb-5">
+    <div class="spinner-grow spinner-grow-sm text-success" role="status"></div>
+    <span class="h6 text-success">{{ 'loading' | translate }}</span>
+  </div>
+}

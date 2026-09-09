@@ -1,0 +1,80 @@
+<div *ngIf="!isLoadingCurrentUser" class="text-center mt-5">
+  <div class="spinner-grow spinner-grow-sm text-success" role="status"></div>
+  <span class="h6 text-success">{{ 'loading' | translate }}</span>
+</div>
+<div *ngIf="isLoadingCurrentUser" class="container" [dir]="isRtl ? 'rtl' : 'ltr'" [class.text-end]="isRtl">
+  <div class="row">
+    <div class="col-lg-4 mt-3">
+      <div class="card mb-4">
+        <div class="card-body text-center">
+          <div class="position-relative">
+            <img
+              id="photoProfile"
+              class="rounded-circle"
+              src="../../../../../assets/media/avatars/avatar10.jpg"
+              alt="Header Avatar"
+            />
+            <!--<input id="inputOfUpload" type="file" class="d-none" (change)="uploadPhoto($event)" />
+            <span *ngIf="isThisProfileOfUserHowIsConnected()" class="position-absolute top-50 end-50 rounded-circle mt-5 me-3" style="cursor: pointer;" (click)="openUploadPhoto()">
+              <fa-icon icon="edit" size="lg" class="text-muted"></fa-icon>
+            </span>-->
+          </div>
+          <h5 class="my-4 mb-1">{{ currentUser.fullName }}</h5>
+          <div *ngFor="let role of currentUser.roles">
+            <p class="text-muted mb-1">{{ capitalizeFirstLetter(role.name) }}</p>
+          </div>
+          <div *ngIf="currentUser.email == authService.getCurrentUser().email" class="mb-4 mt-4 mb-lg-0">
+            <a class="btn btn-sm btn-warning" (click)="openForgotPasswordDialog()">
+              <fa-icon icon="key" class="me-1"></fa-icon>
+              <span>{{ 'change_password' | translate }}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <section class="card card-featured mt-3">
+        <div class="card-body">
+          <div class="row mt-1">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="information-tab" data-bs-toggle="tab" data-bs-target="#information" type="button" role="tab" aria-controls="information" aria-selected="false">
+                  {{ 'information' | translate }}
+                </button>
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent" role="tabpanel" aria-labelledby="information-tab">
+              <!-- information -->
+              <div class="tab-pane fade show active" id="information" role="tabpanel" aria-labelledby="information-tab">
+                <div class="row border-bottom border-start border-end">
+                  <div class="col col-lg-3 text-muted pt-2 pb-2">
+                    {{ 'full_name' | translate }}
+                  </div>
+                  <div class="col text-muted pt-2 pb-2">
+                    {{ currentUser.fullName }}
+                  </div>
+                </div>
+                <div class="row border-bottom border-start border-end">
+                  <div class="col col-lg-3 text-muted pt-2 pb-2">
+                    {{ 'email' | translate }}
+                  </div>
+                  <div class="col text-muted pt-2 pb-2">
+                    {{ currentUser.email }}
+                  </div>
+                </div>
+                <div class="row border-bottom border-start border-end">
+                    <div class="col col-lg-3 text-muted pt-2 pb-2">
+                      {{ 'phone_number' | translate }}
+                    </div>
+                    <div class="col text-muted pt-2 pb-2" dir="ltr">
+                       {{ currentUser.phoneNumber ? phoneNumberFormat(currentUser.phoneNumber) : ('no_phone_number' | translate) }}
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

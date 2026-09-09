@@ -1,0 +1,84 @@
+<div class="d-flex justify-content-between">
+  <div class="p-3">
+    <select
+      #pageSize id="selectPageSize"
+      class="form-select form-select-sm"
+      (change)="changePageSize(pageSize.value)"
+    >
+      <option value="15" [selected]="pagination.pageSize == 15">15</option>
+      <option value="30" [selected]="pagination.pageSize == 30">30</option>
+      <option value="50" [selected]="pagination.pageSize == 50">50</option>
+    </select>
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center pagination-sm p-3">
+        <!-- first page -->
+        <li class="page-item" [ngClass]="{ disabled: pagination.currentPage == 1 }">
+          <button (click)="setPage(1)" class="page-link">
+            <!-- {{ 'pagination.first' | translate }} -->
+            <fa-icon icon="angles-left" />
+          </button>
+        </li>
+
+        <!-- previous page -->
+        <li class="page-item" [ngClass]="{ disabled: pagination.currentPage == 1 }">
+          <button (click)="setPage(pagination.currentPage - 1)" class="page-link">
+            <!-- {{ 'pagination.previous' | translate }} -->
+            <fa-icon icon="angle-left" />
+          </button>
+        </li>
+
+        <!-- previous current page -->
+        <li class="page-item" *ngFor="let item of pagination.pages.left">
+          <button
+            *ngIf="pagination.currentPage - item > 0"
+            (click)="setPage(pagination.currentPage - item)"
+            class="page-link"
+          >
+            {{ pagination.currentPage - item }}
+          </button>
+        </li>
+
+        <!-- current page -->
+        <li class="page-item active">
+          <button class="page-link">{{ pagination.currentPage }}</button>
+        </li>
+
+        <!-- next current page -->
+        <li class="page-item" *ngFor="let item of pagination.pages.right">
+          <button
+            *ngIf="pagination.currentPage + item <= pagination.totalPages"
+            (click)="setPage(pagination.currentPage + item)"
+            class="page-link"
+          >
+            {{ pagination.currentPage + item }}
+          </button>
+        </li>
+
+        <!-- next current page -->
+        <li
+          class="page-item"
+          [ngClass]="{ disabled: pagination.currentPage == pagination.totalPages }"
+        >
+          <button (click)="setPage(pagination.currentPage + 1)" class="page-link">
+            <!-- {{ 'pagination.next' | translate }} -->
+            <fa-icon icon="angle-right" />
+          </button>
+        </li>
+
+        <!-- last page -->
+        <li
+          class="page-item"
+          [ngClass]="{ disabled: pagination.currentPage == pagination.totalPages }"
+        >
+          <button (click)="setPage(pagination.totalPages)" class="page-link">
+            <!-- {{ 'pagination.last' | translate }} -->
+            <fa-icon icon="angles-right" />
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

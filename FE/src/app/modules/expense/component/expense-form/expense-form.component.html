@@ -1,0 +1,117 @@
+<div class="block block-rounded" [dir]="isRtl ? 'rtl' : 'ltr'" [class.text-end]="isRtl">
+  <div class="block-header block-header-default">
+    <h3 class="block-title">{{ 'information' | translate }}</h3>
+  </div>
+  <div class="block-content">
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-8">
+        <form [formGroup]="form" (ngSubmit)="save()">
+          <div class="mb-4">
+            <div class="row mb-2">
+              <div class="col">
+                <label class="form-label" for="_date"><span>{{ 'date' | translate }}</span> <span class="text-danger"> *</span></label>
+                <input type="date" class="form-control" id="_date" formControlName="date" autocomplete="off">
+                <div class="row mt-1">
+                  <span *ngIf="form.get('date')?.touched && !form.get('date')?.value" class="text-danger">
+                    {{ 'information_required' | translate }}
+                  </span>
+                </div>
+              </div>
+              <div class="col">
+                <label class="form-label" for="_method"><span>{{ 'payment.payment_method' | translate }} </span> <span class="text-danger">*</span></label>
+                <select class="form-select" id="_method" formControlName="method">
+                  <option [value]="PaymentMethod.CASH">{{ ('payment.method.' + PaymentMethod.CASH) | translate }}</option>
+                  <option [value]="PaymentMethod.CREDIT_CARD">{{ ('payment.method.' + PaymentMethod.CREDIT_CARD) | translate }}</option>
+                  <option [value]="PaymentMethod.BANK_TRANSFER">{{ ('payment.method.' + PaymentMethod.BANK_TRANSFER) | translate }}</option>
+                  <option [value]="PaymentMethod.CHECK">{{ ('payment.method.' + PaymentMethod.CHECK) | translate }}</option>
+                  <option [value]="PaymentMethod.AGENCY_TRANSFER">{{ ('payment.method.' + PaymentMethod.AGENCY_TRANSFER) | translate }}</option>
+                  <option [value]="PaymentMethod.MOBILE_PAYMENT">{{ ('payment.method.' + PaymentMethod.MOBILE_PAYMENT) | translate }}</option>
+                  <option [value]="PaymentMethod.OTHER">{{ ('payment.method.' + PaymentMethod.OTHER) | translate }}</option>
+                </select>
+                <div class="row mt-1">
+                  <span *ngIf="form.get('method')?.touched && !form.get('method')?.value" class="text-danger">
+                    {{ 'information_required' | translate }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="col">
+                <label class="form-label" for="_amount"><span>{{ 'amount' | translate }} </span> <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" id="_amount" formControlName="amount" min="0" autocomplete="off">
+                <div class="row mt-1">
+                  <span *ngIf="form.get('amount')?.touched && !form.get('amount')?.value" class="text-danger">
+                    {{ 'information_required' | translate }}
+                  </span>
+                  <br>
+                  <span *ngIf="form.get('amount')?.value < 0" class="text-danger">
+                    {{ 'price-must-be-greater-than-to-0' | translate }}
+                  </span>
+                </div>
+              </div>
+              <div class="col">
+                <label class="form-label"><span>{{ 'expense-type.model' | translate }} </span> <span class="text-danger">*</span></label>
+                <div>
+                  <ng-select
+                    [items]="expenseTypes"
+                    bindLabel="name"
+                    bindValue="id"
+                    formControlName="expenseType"
+                    [loading]="!isLoadingExpenseTypes"
+                  >
+                  </ng-select>
+                </div>
+                <div class="row mt-1">
+                  <span *ngIf="form.get('expenseType')?.touched && !form.get('expenseType')?.value" class="text-danger">
+                    {{ 'information_required' | translate }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="col">
+                <label class="form-label">{{ 'tax' | translate }}</label>
+                <div>
+                  <ng-select
+                    [items]="taxes"
+                    bindLabel="name"
+                    bindValue="id"
+                    formControlName="tax"
+                    [loading]="!isLoadingTaxes"
+                  >
+                  </ng-select>
+                </div>
+              </div>
+              <div class="col">
+                <label class="form-label" for="_notes">{{ 'note' | translate }}</label>
+                <textarea id="_notes" class="form-control" cols="50" formControlName="notes"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <button
+              type="button"
+              class="btn btn-secondary me-2"
+              routerLink="/expenses"
+            >
+              <fa-icon icon="circle-left" class="me-1 mx-1"></fa-icon>
+              <span>{{ 'back' | translate }}</span>
+            </button>
+            <button
+              type="submit"
+              class="btn me-2"
+              [class]="expense.id ? 'btn-warning' : 'btn-primary'"
+              [disabled]="!form.valid"
+            >
+              <fa-icon icon="edit" class="me-1 mx-1"></fa-icon>
+              {{ (expense.id ? 'edit' : 'submit') | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

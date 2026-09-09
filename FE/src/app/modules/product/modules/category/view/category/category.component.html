@@ -1,0 +1,111 @@
+<div class="text-center mt-5 mb-5" *ngIf="!isLoading">
+  <div class="spinner-grow spinner-grow-sm text-success" role="status"></div>
+  <span class="h6 text-success">{{ 'loading' | translate }}</span>
+</div>
+
+<div *ngIf="isLoading">
+  <!-- Quick Overview -->
+  <div class="row d-flex justify-content-end">
+    <!--<div class="col-6 col-lg-3">
+      <a class="block block-rounded block-link-shadow text-center link" style="cursor: pointer" (click)="printPdf()">
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold text-info">
+            <fa-icon icon="print"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm text-info mb-0">
+            <span>{{ 'print' | translate }}</span>
+          </p>
+        </div>
+      </a>
+    </div> -->
+    <div class="col-6 col-lg-3">
+      <a class="block block-rounded block-link-shadow text-center link text-decoration-none">
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold text-info">
+            <fa-icon icon="percent"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm text-dark mb-0">
+            {{ categories.length }} {{ 'route.product-categories' | translate }}
+          </p>
+        </div>
+      </a>
+    </div>
+    <div class="col-6 col-lg-3">
+      <a class="block block-rounded block-link-shadow text-center link" routerLink="/categories/add">
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold text-primary">
+            <fa-icon icon="plus"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm text-primary mb-0">
+            {{ 'add' | translate }}
+          </p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <!-- END Quick Overview -->
+
+
+  <!-- All Categories -->
+  <div class="block block-rounded">
+    <div class="block-header block-header-default d-flex justify-content-between">
+      <!--
+      <span
+        [title]="'print' | translate"
+        (click)="printPdf()"
+        class="btn btn-sm btn-secondary bg-gradient"
+
+        <fa-icon size="lg" icon="print"></fa-icon>
+      </span>
+      -->
+    </div>
+    <div class="block-content">
+      <!-- All Categories Table -->
+      <table class="table table-sm table-hover table-striped">
+        <thead>
+          <tr>
+            <th class="col">{{ 'name' | translate }}</th>
+            <th class="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (categories.length > 0) {
+            <tr *ngFor="let category of categories">
+              <td>
+                <span class="btn btn-link m-0 p-0" [routerLink]="'/categories/edit/' + category.id">
+                  {{ capitalizeFirstLetter(category.name) }}
+                </span>
+              </td>
+              <td>
+                <div class="d-flex justify-content-end">
+                  <fa-icon
+                    icon="square-pen" size="xl"
+                    style="cursor: pointer" class="text-warning me-2"
+                    [routerLink]="'/categories/edit/' + category.id"
+                  ></fa-icon>
+                  <fa-icon
+                    icon="trash-alt" size="lg"
+                    style="cursor: pointer" class="text-danger me-1"
+                    (click)="confirmDeleteCategory(category)"
+                  ></fa-icon>
+                </div>
+              </td>
+            </tr>
+          } @else {
+            <tr>
+              <td colspan="2" class="text-center">{{ 'no_data_exists' | translate}}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      <!-- END All Categories Table -->
+    </div>
+  </div>
+  <!-- END All Categories -->
+</div>

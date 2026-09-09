@@ -1,0 +1,41 @@
+<section class="position-relative">
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-8 mt-5">
+                <form [formGroup]="checkTokenForm" (ngSubmit)="checkToken()">
+                    <div class="card shadow-lg mt-5">
+                        <div class="card-body p-4 pb-0 mb-5">
+                            <!-- token -->
+                            <!-- <div class="form-outline mb-4"> -->
+                            <label class="form-label">{{ "enter_token" | translate }}</label>
+                            <div class="form-row justify-content-center mt-5 mb-4">
+                                <div class="col col-2 pe-1 float-start">
+                                    <input id="token1" type="text" style="height: 150px;" formControlName="token1" (ngModelChange)="enterToken(1)" class="text-center fs-1 form-control col col-2" maxlength="1" placeholder="*"  autocomplete="off"/>
+                                </div>
+                                <div class="col col-2 pe-1 float-start">
+                                    <input id="token2" type="text" style="height: 150px;" formControlName="token2" (ngModelChange)="enterToken(2)" class="text-center fs-1 form-control col col-2" maxlength="1" placeholder="*"  autocomplete="off"/>
+                                </div>
+                                <div class="col col-2 pe-1 float-start">
+                                    <input id="token3" type="text" style="height: 150px;" formControlName="token3" (ngModelChange)="enterToken(3)" class="text-center fs-1 form-control col col-2" maxlength="1" placeholder="*"  autocomplete="off"/>
+                                </div>
+                                <div class="col col-2 pe-1 float-start">
+                                    <input id="token4" type="text" style="height: 150px;" formControlName="token4" (ngModelChange)="enterToken(4)" class="text-center fs-1 form-control col col-2" maxlength="1" placeholder="*"  autocomplete="off"/>
+                                </div>
+                                <div class="col col-2 pe-1 float-start">
+                                    <input id="token5" type="text" style="height: 150px;" formControlName="token5" (ngModelChange)="enterToken(5)" class="text-center fs-1 form-control col col-2" maxlength="1" placeholder="*"  autocomplete="off"/>
+                                </div>
+                                <div class="col col-2 pe-1 float-start">
+                                    <input id="token6" type="text" style="height: 150px;" formControlName="token6" class="text-center fs-1 form-control col col-2" maxlength="1" placeholder="*"  autocomplete="off"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary float-end" [disabled]="!checkTokenForm.valid">{{ "submit" | translate }}</button>
+                            <button type="button" class="btn btn-secondary me-2 float-end" (click)="cancelCheckToken()">{{ "cancel" | translate }}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

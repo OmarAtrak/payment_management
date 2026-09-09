@@ -1,0 +1,82 @@
+<!--<section class="position-relative" [class]="currentLanguage == 'ar-AR' ? ' rtl-support' : ''">-->
+<section class="position-relative">
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5 mt-5">
+                <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
+                    <div class="card shadow-lg mt-5">
+                        <div class="card-body p-5 pb-0">
+                            <!-- email -->
+                            <div class="row p-2 mt-3">
+                                <div class="col col-1 mt-2">
+                                    <fa-icon icon="user" size="lg"></fa-icon>
+                                </div>
+                                <div class="col col-10 mx-1">
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        class="form-control form-control"
+                                        formControlName="email"
+                                        [placeholder]="'email' | translate"
+                                        [dir]="isRtl ? 'rtl' : 'ltr'"
+                                    />
+                                    <div class="row text-danger mx-1" *ngIf="loginForm.controls['email'].touched && loginForm.controls['email'].invalid">
+                                        {{ (loginForm.controls['email'].value.length == 0 ? 'email_required' : 'invalid_email') | translate }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- password -->
+                            <div class="row p-2">
+                                <div class="col col-1 mt-2">
+                                    <fa-icon icon="key" size="lg" [style]="{ color: '#474747' }"></fa-icon>
+                                </div>
+                                <div class="col col-10 mx-1">
+                                    <div class="input-group">
+                                        <input
+                                            [type]="showPassword ? 'text' : 'password'"
+                                            id="password"
+                                            class="form-control form-control"
+                                            formControlName="password"
+                                            [placeholder]="'password' | translate"
+                                            [dir]="isRtl ? 'rtl' : 'ltr'"
+                                        />
+                                        <span class="input-group-text" (click)="showPassword = !showPassword">
+                                            <fa-icon [icon]="showPassword ? fontAwesomeService.getIcon('eye-slash') : fontAwesomeService.getIcon('eye')" size="lg"></fa-icon>
+                                        </span>
+                                    </div>
+                                    <div class="row mt-1 text-danger" *ngIf="loginForm.controls['password'].touched && loginForm.controls['password'].invalid">
+                                        <span *ngIf="loginForm.controls['password'].value.length == 0">
+                                          {{ 'password_required' | translate }}
+                                        </span>
+                                        <span *ngIf="loginForm.controls['password'].value.length != 0">
+                                          {{ 'minimum_characters' | translate}}
+                                        </span>
+                                    </div>
+                                    <!--<a class="btn btn-link float-end mb-4 pe-0" (click)="openDialogForgotPassword()">
+                                        {{ 'forgot_password' | translate }}
+                                    </a>-->
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col col-11">
+                                    <button [disabled]="!loginForm.valid" class="btn btn-primary mb-4 mt-4 w-100" type="submit">
+                                        {{ 'login' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--<p class="d-flex justify-content-center align-items-center text-muted">
+                          <span>{{ 'no_have_account' | translate }}</span>
+                          <a class="btn btn-link float-end m-0 mx-2 p-0" (click)="openDialogCreateUser()">
+                            {{ 'sign_up' | translate }}
+                          </a>
+                        </p>-->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

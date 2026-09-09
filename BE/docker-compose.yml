@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  # --- Payment Application ---
+  payment-backend-app:
+    image: payment-app
+    container_name: payment-backend-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "8888:8888"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/payment_db?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: StrongRootPass123!
+    networks:
+      - football-prediction-network
+
+networks:
+  football-prediction-network:
+    external: true

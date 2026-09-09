@@ -1,0 +1,85 @@
+<div class="card">
+    <div class="card-header">
+        <h6 class="card-title" id="cardRegisterLabel">
+          <fa-icon icon="edit" class="me-2" />
+          {{ 'sign_up' | translate }}
+        </h6>
+    </div>
+    <div class="card-body p-5 pt-3 pb-5" [formGroup]="signupForm">
+        <!-- first name && last name -->
+        <div class="row">
+            <div class="col col-md-6">
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="_firstName">
+                        <span>{{ 'first_name' | translate }}</span>
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" id="_firstName" formControlName="firstName" class="form-control" />
+                    <div class="row text-danger mx-1" *ngIf="signupForm.controls['firstName'].touched && signupForm.controls['firstName'].invalid">
+                        {{ 'first_name_required' | translate }}
+                    </div>
+                </div>
+            </div>
+            <div class="col col-md-6">
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="_lastName">
+                        <span>{{ 'last_name' | translate }}</span>
+                        <span class="mx-1 text-danger">*</span>
+                    </label>
+                    <input type="text" id="_lastName" formControlName="lastName" class="form-control" />
+                    <div class="row text-danger mx-1" *ngIf="signupForm.controls['lastName'].touched && signupForm.controls['lastName'].invalid">
+                        {{ 'last_name_required' | translate }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- email && password -->
+        <div class="row">
+            <div class="col col-md-6">
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="_email">
+                        <span>{{ 'email' | translate }}</span>
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="email" id="_email" formControlName="email" class="form-control" />
+                    <div class="row text-danger mx-1" *ngIf="signupForm.controls['email'].touched && signupForm.controls['email'].invalid">
+                        {{ (signupForm.controls['email'].value.length == 0 ? 'email_required' : 'invalid_email') | translate }}
+                    </div>
+                </div>
+            </div>
+            <div class="col col-md-6">
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="_password">
+                        <span>{{ 'password' | translate }}</span>
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="password" id="_password" formControlName="password" class="form-control" />
+                    <div class="row text-danger mx-1" *ngIf="signupForm.controls['password'].touched && signupForm.controls['password'].invalid">
+                        {{ (signupForm.controls['password'].value.length == 0 ? 'password_required' : 'minimum_characters') | translate }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- phone number -->
+        <div class="row">
+            <div class="col col-md-6">
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="_phoneNumber">{{ 'phone_number' | translate }}</label>
+                    <input type="text" id="_phoneNumber" maxlength="10" formControlName="phoneNumber" class="form-control" />
+                    <div class="row text-danger mx-1" *ngIf="signupForm.controls['phoneNumber'].touched && signupForm.controls['phoneNumber'].invalid">
+                        {{ 'phone_number_minimum_characters' | translate }}
+                    </div>
+                </div>
+            </div>
+        </div>
+  </div>
+  <div class="card-footer">
+    <button type="button" (click)="closeDialog()" class="btn btn-secondary">
+      {{ 'cancel' | translate }}
+    </button>
+    <button class="btn btn-primary m-3" [disabled]="!signupForm.valid" (click)="createUser()">
+      <fa-icon icon="square-plus" class="me-1"></fa-icon>
+      <span>{{ 'submit' | translate }}</span>
+    </button>
+  </div>
+</div>

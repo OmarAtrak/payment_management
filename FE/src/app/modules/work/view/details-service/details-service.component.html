@@ -1,0 +1,116 @@
+@if (isLoading) {
+  <div class="row mx-1 me-1 d-flex justify-content-end">
+    <div class="col-6 col-lg-3">
+      <a
+        class="block block-rounded block-link-shadow text-center link"
+        routerLink="/services"
+      >
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold text-primary">
+            <fa-icon icon="circle-left"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm text-primary mb-0">
+            <span>{{ 'back' | translate }}</span>
+          </p>
+        </div>
+      </a>
+    </div>
+    <!--<div class="col-6 col-lg-3">
+      <a class="block block-rounded block-link-shadow text-center link" style="cursor: pointer" (click)="printPdf()">
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold text-info">
+            <fa-icon icon="print"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm text-info mb-0">
+            <span>Print</span>
+          </p>
+        </div>
+      </a>
+    </div>-->
+    <div class="col-6 col-lg-3">
+      <a
+        class="block block-rounded block-link-shadow text-center link"
+        [routerLink]="'/services/edit/' + service.id"
+      >
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold text-warning">
+            <fa-icon icon="edit"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm text-warning mb-0">
+            <span>{{ 'edit' | translate }}</span>
+          </p>
+        </div>
+      </a>
+    </div>
+    <div class="col-6 col-lg-3">
+      <a
+        class="block block-rounded block-link-shadow text-center link"
+        style="cursor: pointer"
+        (click)="showDialogConfirmDelete()"
+      >
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold text-danger">
+            <fa-icon icon="times"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm text-danger mb-0">
+            <span>{{ 'delete' | translate }}</span>
+          </p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+
+
+  <div class="row" [dir]="isRtl ? 'rtl' : 'ltr'" [class.text-end]="isRtl">
+    <div class="col order-xl-0">
+      <!-- Product -->
+      <div class="block block-rounded">
+        <div class="block-content">
+          <!-- Vitals -->
+          <div class="row items-push">
+            <div class="col-md-4">
+              <div class="row g-sm js-gallery img-fluid-100 js-gallery-enabled">
+                <div class="col-12 mb-3 text-center">
+                  <fa-icon icon="screwdriver-wrench" class="img-fluid fs-2 text-muted" size="8x"></fa-icon>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <!-- Info -->
+              <div class="d-flex justify-content-between">
+                <div>
+                  <div class="fs-3 fw-semibold">{{ capitalizeFirstLetter(service.name) }}</div>
+                  <div>{{ 'code' | translate }} : {{ capitalizeFirstLetter(service.code) }}</div>
+                  <div>{{ 'tax' | translate }} : {{ capitalizeFirstLetter(service.tax.name) }}</div>
+                </div>
+                <div class="fw-bold text-center text-primary">
+                  <span class="fs-2">{{ service.price | number : '2.2-2' }}</span> {{ 'dh' | translate}}
+                </div>
+              </div>
+              <hr>
+              <p [innerHTML]="service.descriptionHtml"></p>
+              <!-- END Info -->
+            </div>
+          </div>
+          <!-- END Vitals -->
+          <!-- END Extra Info Tabs -->
+        </div>
+      </div>
+      <!-- END Product -->
+    </div>
+  </div>
+} @else {
+  <div class="text-center mt-5 mb-5">
+    <div class="spinner-grow spinner-grow-sm text-success" role="status"></div>
+    <span class="h6 text-success">{{ 'loading' | translate }}</span>
+  </div>
+}

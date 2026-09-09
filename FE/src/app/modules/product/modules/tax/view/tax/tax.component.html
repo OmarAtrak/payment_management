@@ -1,0 +1,113 @@
+<div class="text-center mt-5 mb-5" *ngIf="!isLoading">
+  <div class="spinner-grow spinner-grow-sm text-success" role="status"></div>
+  <span class="h6 text-success">{{ 'loading' | translate }}</span>
+</div>
+
+<div *ngIf="isLoading">
+  <!-- Quick Overview -->
+  <div class="row d-flex justify-content-end">
+    <!--<div class="col-6 col-lg-3">
+      <a class="block block-rounded block-link-shadow text-center link" style="cursor: pointer" (click)="printPdf()">
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold text-info">
+            <fa-icon icon="print"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm text-info mb-0">
+            <span>{{ 'print' | translate }}</span>
+          </p>
+        </div>
+      </a>
+    </div> -->
+    <div class="col-6 col-lg-3">
+      <a class="block block-rounded block-link-shadow text-center link text-decoration-none">
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold text-info">
+            <fa-icon icon="percent"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm text-dark mb-0">
+            {{ taxes.length }} {{ 'taxes' | translate }}
+          </p>
+        </div>
+      </a>
+    </div>
+    <div class="col-6 col-lg-3">
+      <a class="block block-rounded block-link-shadow text-center link" routerLink="/taxes/add">
+        <div class="block-content block-content-full">
+          <div class="fs-2 fw-semibold text-primary">
+            <fa-icon icon="plus"></fa-icon>
+          </div>
+        </div>
+        <div class="block-content py-2 bg-body-light">
+          <p class="fw-medium fs-sm text-primary mb-0">
+            {{ 'add' | translate }}
+          </p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <!-- END Quick Overview -->
+
+
+  <!-- All Taxes -->
+  <div class="block block-rounded">
+    <div class="block-header block-header-default d-flex justify-content-between">
+      <!--
+      <span
+        [title]="'print' | translate"
+        (click)="printPdf()"
+        class="btn btn-sm btn-secondary bg-gradient"
+
+        <fa-icon size="lg" icon="print"></fa-icon>
+      </span>
+      -->
+    </div>
+    <div class="block-content">
+      <!-- All Taxes Table -->
+      <table class="table table-sm table-hover table-striped">
+        <thead>
+          <tr>
+            <th class="col col-5">{{ 'name' | translate }}</th>
+            <th class="col col-5">{{ 'rate' | translate }}</th>
+            <th class="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (taxes.length > 0) {
+            <tr *ngFor="let tax of taxes">
+              <td>
+                {{ tax.name }}
+              </td>
+              <td>
+                {{ tax.rate }}
+              </td>
+              <td>
+                <div class="d-flex justify-content-end">
+                  <fa-icon
+                    icon="square-pen" size="xl"
+                    style="cursor: pointer" class="text-warning me-2"
+                    [routerLink]="'/taxes/edit/' + tax.id"
+                  ></fa-icon>
+                  <fa-icon
+                    icon="trash-alt" size="lg"
+                    style="cursor: pointer" class="text-danger me-1"
+                    (click)="confirmDeleteTax(tax)"
+                  ></fa-icon>
+                </div>
+              </td>
+            </tr>
+          } @else {
+            <tr>
+              <td colspan="3" class="text-center">{{ 'no_data_exists' | translate}}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      <!-- END All Taxes Table -->
+    </div>
+  </div>
+  <!-- END All Taxes -->
+</div>

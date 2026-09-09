@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  payment-angular-app:
+    container_name: payment-angular-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "2000:80"
+    restart: unless-stopped
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro

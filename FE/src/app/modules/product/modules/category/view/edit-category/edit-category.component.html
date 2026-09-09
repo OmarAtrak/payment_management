@@ -1,0 +1,8 @@
+@if (isLoading) {
+  <app-category-form [category]="currentCategory"></app-category-form>
+} @else {
+  <div class="text-center mt-5 mb-5">
+    <div class="spinner-grow spinner-grow-sm text-success" role="status"></div>
+    <span class="h6 text-success">{{ 'loading' | translate }}</span>
+  </div>
+}

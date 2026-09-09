@@ -1,0 +1,32 @@
+<!-- Quick Overview -->
+<div class="row d-flex justify-content-end">
+  <div class="col-6 col-lg-3">
+    <a class="block block-rounded block-link-shadow text-center link text-decoration-none">
+      <div class="block-content block-content-full">
+        <div class="fs-2 fw-semibold text-info">
+          {{ length }}
+        </div>
+      </div>
+      <div class="block-content py-2 bg-body-light">
+        <p class="fw-medium fs-sm text-info mb-0">
+          {{ ('route.' + model) | translate }}
+        </p>
+      </div>
+    </a>
+  </div>
+  <div class="col-6 col-lg-3">
+    <a class="block block-rounded block-link-shadow text-center link" [routerLink]="'/' + model + '/add'">
+      <div class="block-content block-content-full">
+        <div class="fs-2 fw-semibold text-primary">
+          <fa-icon icon="plus"></fa-icon>
+        </div>
+      </div>
+      <div class="block-content py-2 bg-body-light">
+        <p class="fw-medium fs-sm text-primary mb-0">
+          {{ 'add' | translate }}
+        </p>
+      </div>
+    </a>
+  </div>
+</div>
+<!-- END Quick Overview -->
