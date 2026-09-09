@@ -59,7 +59,6 @@ export class ProductFormComponent implements OnInit {
       name: [null, Validators.required],
       description: [null],
       price: [null, [Validators.required, Validators.min(0)]],
-      priceMin: [null, Validators.min(0)],
       category: [null, Validators.required],
       tax: [null, Validators.required],
       unit: [null, Validators.required],
@@ -72,7 +71,6 @@ export class ProductFormComponent implements OnInit {
       this.form.controls['name'].setValue(this.product.name);
       this.form.controls['description'].setValue(this.product.descriptionHtml ?? null);
       this.form.controls['price'].setValue(this.product.price ?? 0);
-      this.form.controls['priceMin'].setValue(this.product.priceMin ?? null);
       this.form.controls['category'].setValue(this.product.category);
       this.form.controls['tax'].setValue(this.product.tax);
       this.form.controls['unit'].setValue(this.product.unit);
@@ -172,7 +170,6 @@ export class ProductFormComponent implements OnInit {
         :
           '';
       this.product.price = values.price;
-      this.product.priceMin = values.priceMin;
 
       const category = new Category();
       category.id = values.category;

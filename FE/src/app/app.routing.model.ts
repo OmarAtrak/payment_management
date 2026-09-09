@@ -66,12 +66,11 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    canActivate: [AuthGuardService]
   },
-  {
-    path: 'dashboard',
-    redirectTo: ''
-  },
+  // {
+  //   path: 'dashboard',
+  //   redirectTo: ''
+  // },
 
   // login
   {
@@ -173,7 +172,6 @@ const routes: Routes = [
   {
     path: 'products/details/:id',
     component: DetailsProductComponent,
-    canActivate: [AuthGuardService]
   },
 
   // services

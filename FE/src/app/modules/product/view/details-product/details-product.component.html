@@ -96,10 +96,6 @@
                 </div>
                 <div class="fw-bold text-center text-primary">
                   <span class="fs-2">{{ product.price | number : '2.2-2' }}</span> {{ 'dh' | translate }}
-                  @if (product.priceMin) {
-                    <br>
-                    <span class="fs-6 text-muted">{{ product.priceMin | number : '2.2-2' }}</span> {{ 'dh' | translate }}
-                  }
                 </div>
               </div>
               <hr>

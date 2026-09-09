@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import config from "../../../../config";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Product} from "../model/product";
+import {ProductPage} from "../model/product-page";
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class ProductService {
       .set('page', page - 1)
       .set('size', size);
 
-    return this.http.get<Array<Product>>(`${this.API_URL}/index`, { params: params });
+    return this.http.get<ProductPage>(`${this.API_URL}/index`, { params: params });
   }
 
   get(id: number) {

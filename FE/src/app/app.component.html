@@ -1,105 +1,22 @@
 <!--<div id="page-container" class="sidebar-dark" [class]="authService.isLoggedIn ? currentLanguage == 'ar' ? 'sidebar-o sidebar-dark enable-page-overlay sidebar-r side-scroll page-header-fixed main-content-narrow rtl-support side-trans-enabled' : 'sidebar-o enable-page-overlay side-scroll page-header-fixed main-content-narrow' : ''">-->
 <div id="page-container" class="sidebar-dark" [class]="authService.isLoggedIn ? 'sidebar-o sidebar-dark enable-page-overlay sidebar-r side-scroll page-header-fixed main-content-narrow' : ''">
-  <nav id="sidebar" aria-label="Main Navigation">
-    <!-- Side Header -->
-    <div class="content-header">
-      <!-- Logo -->
-      <a class="fw-semibold text-dual" href="index.html">
-        <a class="fw-semibold text-dual" href="index.html">
-          <span class="smini-visible">
-            <fa-icon icon="car-side"></fa-icon>
-          </span>
-          <span class="smini-hide tracking-wider">
-            <fa-icon icon="car-side"></fa-icon>
-            GARAGE03
-          </span>
-        </a>
-      </a>
-      <!-- END Logo -->
-
-      <!-- Extra -->
-      <div>
-        <!-- Dark Mode -->
-        <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-        <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="layout" data-action="dark_mode_toggle">
-          <fa-icon icon="moon"></fa-icon>
-        </button>
-        <!-- END Dark Mode -->
-
-        <!-- Close Sidebar, Visible only on mobile screens -->
-        <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-        <a class="d-lg-none btn btn-sm btn-alt-secondary ms-1" data-toggle="layout" data-action="sidebar_close" href="javascript:void(0)">
-          <fa-icon class="fa fa-fw" icon="xmark"></fa-icon>
-        </a>
-        <!-- END Close Sidebar -->
-      </div>
-      <!-- END Extra -->
-    </div>
-    <!-- END Side Header -->
-    <!-- Sidebar Scrolling -->
-    <app-sidebar *ngIf="authService.isLoggedIn"></app-sidebar>
-    <!-- END Sidebar Scrolling -->
-  </nav>
-
-  <header id="page-header" [class]="authService.isLoggedIn ? '' : 'd-none'">
-    <!-- Header Content -->
-    <div class="content-header m-0 w-100" [class]="currentLanguage == 'ar-AR' ? 'd-flex justify-content-end' : ''">
-      <!-- Left Section -->
-      <div class="d-flex align-items-center">
-        <!-- Toggle Sidebar -->
-        <!-- Layout API, functionality initialized in Template._uiApiLayout()-->
-        <button type="button" class="btn btn-sm btn-alt-secondary me-2 d-lg-none show" data-toggle="layout" data-action="sidebar_toggle">
-          <fa-icon icon="bars"></fa-icon>
-        </button>
-        <!-- END Toggle Sidebar -->
-
-        <!-- Toggle Mini Sidebar -->
-        <!-- Layout API, functionality initialized in Template._uiApiLayout()-->
-        <button type="button" class="btn btn-sm btn-alt-secondary me-2 d-none d-lg-inline-block show" data-toggle="layout" data-action="sidebar_mini_toggle">
-          <fa-icon class="fa fa-fw" icon="ellipsis-vertical"></fa-icon>
-        </button>
-        <!-- END Toggle Mini Sidebar -->
-      </div>
-      <!-- END Left Section -->
-      <!-- Right Section -->
-      <app-nav-bar *ngIf="authService.isLoggedIn"></app-nav-bar>
-      <!-- END Right Section -->
-    </div>
-    <!-- END Header Content -->
+  <!-- Header -->
+  <header id="page-header">
+    <app-nav-bar></app-nav-bar>
   </header>
+  <!-- END Header -->
 
+  <!-- Main Container -->
   <main id="main-container">
-    <!-- Hero -->
-    <div *ngIf="router.url != '/' && authService.isLoggedIn" class="bg-body-light">
-      <div class="bg-body-light">
-        <div class="content content-full">
-          <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center py-2">
-            <div class="flex-grow-1">
-              <h1 class="h3 fw-bold mb-1">
-                {{ currentUrl | translate }}
-              </h1>
-              <!--<h2 class="fs-base lh-base fw-medium text-muted mb-0">
-                Fixed Light
-              </h2>-->
-            </div>
-<!--            <nav class="flex-shrink-0 mt-3 mt-sm-0 ms-sm-3" aria-label="breadcrumb">-->
-<!--              <ol class="breadcrumb breadcrumb-alt">-->
-<!--                <li *ngFor="let segment of currentUrl" class="breadcrumb-item">-->
-<!--                  <a class="link-fx" href="#">{{ segment.replace(';type=1', '').toUpperCase() }}</a>-->
-<!--                </li>-->
-<!--              </ol>-->
-<!--            </nav>-->
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- END Hero -->
-
     <!-- Page Content -->
-    <div class="content m-0 w-100">
+    <div class="content content-full content-boxed">
       <router-outlet></router-outlet>
     </div>
     <!-- END Page Content -->
   </main>
+  <!-- END Main Container -->
+
+  <!-- Footer -->
   <app-footer></app-footer>
+  <!-- END Footer -->
 </div>

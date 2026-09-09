@@ -10,14 +10,19 @@ import { TranslateService } from "@ngx-translate/core";
   standalone: false,
 })
 
-export class NavBarComponent implements OnInit{
-  currentUser:User = new User();
+export class NavBarComponent implements OnInit {
+  currentUser: User = new User();
   capitalizeFirstLetter = capitalizeFirstLetter;
 
-  constructor(private authService:AuthService, private translateService: TranslateService) {}
+  constructor(
+    protected readonly authService: AuthService,
+    private readonly translateService: TranslateService
+  ) {}
 
   getCurrentUser() {
-    this.currentUser = this.authService.getCurrentUser();
+    if (this.authService.isLoggedIn) {
+      this.currentUser = this.authService.getCurrentUser();
+    }
   }
 
   get currentLanguage(): string {

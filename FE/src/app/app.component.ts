@@ -17,36 +17,36 @@ export class AppComponent implements OnInit {
   constructor (public authService:AuthService, public router:Router, private translateService: TranslateService) {}
 
   ngOnInit() : void{
-    if (this.authService.isLoggedIn){
-      const currentDate = new Date();
-      const expirationDate = this.authService.getTokenExpirationDate();
-      // variable to know how much the duration for token expiration
-      if (expirationDate != undefined) {
-        const timeExpiration = expirationDate?.getTime() - currentDate.getTime();
-        if(timeExpiration) {
-          console.log('session expired in ' + millisecondsToTime(expirationDate.getTime() - currentDate.getTime()));
-        }
-
-        // Check token expiration
-        setTimeout(() => {
-          this.authService.autoLogout();
-        }, timeExpiration);
-      }
-      else {
-        this.authService.logout();
-      }
-    }
-    else {
-      this.router.navigate(['login']);
-    }
-
-    this.setDefaultLang();
-
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      this.updateUrlList();
-    });
+    // if (this.authService.isLoggedIn){
+    //   const currentDate = new Date();
+    //   const expirationDate = this.authService.getTokenExpirationDate();
+    //   // variable to know how much the duration for token expiration
+    //   if (expirationDate != undefined) {
+    //     const timeExpiration = expirationDate?.getTime() - currentDate.getTime();
+    //     if(timeExpiration) {
+    //       console.log('session expired in ' + millisecondsToTime(expirationDate.getTime() - currentDate.getTime()));
+    //     }
+    //
+    //     // Check token expiration
+    //     setTimeout(() => {
+    //       this.authService.autoLogout();
+    //     }, timeExpiration);
+    //   }
+    //   else {
+    //     this.authService.logout();
+    //   }
+    // }
+    // else {
+    //   this.router.navigate(['login']);
+    // }
+    //
+    // this.setDefaultLang();
+    //
+    // this.router.events.pipe(
+    //   filter(event => event instanceof NavigationEnd)
+    // ).subscribe(() => {
+    //   this.updateUrlList();
+    // });
   }
 
   updateUrlList() {

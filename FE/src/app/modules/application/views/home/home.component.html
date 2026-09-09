@@ -1,307 +1,38 @@
 @if (isLoading) {
-  <div
-    class="header d-flex flex-column flex-md-row justify-content-md-between align-items-md-center py-2 pt-0"
-    [dir]="isRtl ? 'rtl' : 'ltr'" [class.text-end]="isRtl"
-  >
-    <div class="flex-grow-1 mb-1 mb-md-0 col d-flex justify-content-between">
-      <div class="col-6">
-        <h1 class="h3 fw-bold m-0">
-          {{ 'dashboard' | translate }}
-        </h1>
-      </div>
-      <div class="col col-auto">
-        <div class="fs-sm rounded fw-bold text-white p-2 bg-amethyst-dark">
-          <app-datetime></app-datetime>
+  <div class="row items-push">
+    @for (product of products; track product.id) {
+      <div class="col-md-6 col-xl-4">
+        <div class="block block-rounded h-100 mb-0">
+          <div class="block-content p-1">
+            <div class="options-container">
+              <div class="d-flex justify-content-center">
+                <fa-icon icon="box" size="7x"></fa-icon>
+              </div>
+              <div class="options-overlay bg-black-75">
+                <div class="options-overlay-content">
+                  <a class="btn btn-sm btn-alt-secondary" [routerLink]="'/products/details/' + product.id">
+                    {{ 'view' | translate }}
+                  </a>
+                  <a class="btn btn-sm btn-alt-secondary" href="#">
+                    <i class="fa fa-plus text-success me-1"></i> {{ 'add_to_cart' | translate }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="block-content">
+            <div class="mb-1">
+              <div class="fw-semibold float-end ms-1">{{ product.price | number : '2.2-2' }} {{ 'dh' | translate }}</div>
+              <a class="h6" [routerLink]="'/products/details/' + product.id">{{ product.name }}</a>
+            </div>
+            <p class="fs-sm text-muted">{{ product.description }}</p>
+          </div>
         </div>
       </div>
-    </div>
+    }
   </div>
-
-  <div class="row mb-3">
-    <!-- filter by date -->
-    <div class="col d-flex align-items-center justify-content-end">
-      <div class="ms-3">
-        <button class="btn btn-primary me-2" (click)="filterByPeriod()">{{ 'filter' | translate }}</button>
-      </div>
-
-      <div class="ms-3">
-        <label for="startDate" class="form-label">{{ 'start_date' | translate }}</label>
-      </div>
-      <div class="ms-3">
-        <input type="date" id="startDate" class="form-control" [(ngModel)]="startDate">
-      </div>
-      <div class="ms-3">
-        <label for="endDate" class="form-label">{{ 'end_date' | translate }}</label>
-      </div>
-      <div class="ms-3">
-        <input type="date" id="endDate" class="form-control" [(ngModel)]="endDate">
-      </div>
-
-      <!-- Period -->
-      <div id="horizontal-navigation-hover-normal" class="d-none d-sm-block mt-2 mt-sm-0 mx-3">
-        <ul class="nav-main nav-main-horizontal nav-main-hover">
-          <li class="nav-main-item">
-            <a id="btnSelectField" class="btn btn-link bg-gray nav-main-link mb-0 p-0 px-3" data-toggle="submenu" aria-haspopup="true" aria-expanded="false">
-              <span style="cursor: pointer;" class="fs-5 me-5">
-                  {{ ('planning.display.' + selectedDisplayType) | translate }}
-              </span>
-            </a>
-            <ul class="nav-main-submenu p-0">
-              <!-- term1 -->
-              <li class="nav-main-item" [class]="selectedDisplayType == 'term1' ? 'bg-info-light' : ''" (click)="changeDisplayType('term1')">
-                <a class="btn btn-link nav-main-link">
-                  {{ 'planning.display.term1' | translate }}
-                </a>
-              </li>
-              <!-- term2 -->
-              <li class="nav-main-item" [class]="selectedDisplayType == 'term2' ? 'bg-info-light' : ''" (click)="changeDisplayType('term2')">
-                <a class="btn btn-link nav-main-link">
-                  {{ 'planning.display.term2' | translate }}
-                </a>
-              </li>
-              <!-- term3 -->
-              <li class="nav-main-item" [class]="selectedDisplayType == 'term3' ? 'bg-info-light' : ''" (click)="changeDisplayType('term3')">
-                <a class="btn btn-link nav-main-link">
-                  {{ 'planning.display.term3' | translate }}
-                </a>
-              </li>
-              <!-- term4 -->
-              <li class="nav-main-item" [class]="selectedDisplayType == 'term4' ? 'bg-info-light' : ''" (click)="changeDisplayType('term4')">
-                <a class="btn btn-link nav-main-link">
-                  {{ 'planning.display.term4' | translate }}
-                </a>
-              </li>
-              <!-- current week -->
-              <li class="nav-main-item" [class]="selectedDisplayType == 'currentWeek' ? 'bg-info-light' : ''" (click)="changeDisplayType('currentWeek')">
-                <a class="btn btn-link nav-main-link">
-                  {{ 'planning.display.currentWeek' | translate }}
-                </a>
-              </li>
-              <!-- previous week -->
-              <li class="nav-main-item" [class]="selectedDisplayType == 'previousWeek' ? 'bg-info-light' : ''" (click)="changeDisplayType('previousWeek')">
-                <a class="btn btn-link nav-main-link">
-                  {{ 'planning.display.previousWeek' | translate }}
-                </a>
-              </li>
-              <!-- current month -->
-              <li class="nav-main-item" [class]="selectedDisplayType == 'currentMonth' ? 'bg-info-light' : ''" (click)="changeDisplayType('currentMonth')">
-                <a class="btn btn-link nav-main-link">
-                  {{ 'planning.display.currentMonth' | translate }}
-                </a>
-              </li>
-              <!-- previous month -->
-              <li class="nav-main-item" [class]="selectedDisplayType == 'previousMonth' ? 'bg-info-light' : ''" (click)="changeDisplayType('previousMonth')">
-                <a class="btn btn-link nav-main-link">
-                  {{ 'planning.display.previousMonth' | translate }}
-                </a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="row g-3 mt-2">
-    <!-- periods and inputs -->
-    <div class="col-lg-3 col-md-6">
-      <div class="card shadow-sm border-0 h-100 stat-card bg-primary-subtle">
-        <div class="card-body d-flex justify-content-between align-items-center">
-          <div>
-            <h4 class="fw-bold text-primary" [dir]="isRtl ? 'rtl' : 'ltr'">
-              {{ summaryBalance.totalInvoiceRevenue | number:'1.2-2' }} {{ 'dh' | translate }}
-            </h4>
-            <p class="text-black mb-1 small">
-              {{ "summary-balance.total_invoice_revenue" | translate }}
-            </p>
-          </div>
-          <div class="stat-icon bg-primary">
-            <i class="fas fa-file-invoice text-white"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-lg-3 col-md-6">
-      <div class="card shadow-sm border-0 h-100 stat-card bg-info-subtle">
-        <div class="card-body d-flex justify-content-between align-items-center">
-          <div>
-            <h4 class="fw-bold text-info" [dir]="isRtl ? 'rtl' : 'ltr'">
-              {{ summaryBalance.totalPayment | number:'1.2-2' }} {{ 'dh' | translate }}
-            </h4>
-            <p class="text-black mb-1 small">
-              {{ "summary-balance.total_payment" | translate }}
-            </p>
-          </div>
-          <div class="stat-icon bg-info">
-            <i class="fas fa-wallet text-white"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-lg-3 col-md-6">
-      <div class="card shadow-sm border-0 h-100 stat-card bg-danger-subtle">
-        <div class="card-body d-flex justify-content-between align-items-center">
-          <div>
-            <h4 class="fw-bold text-danger" [dir]="isRtl ? 'rtl' : 'ltr'">
-              {{ summaryBalance.totalExpenseTTC | number:'1.2-2' }} {{ 'dh' | translate }}
-            </h4>
-            <p class="text-black mb-1 small">
-              {{ "summary-balance.total_expense_ttc" | translate }}
-            </p>
-          </div>
-          <div class="stat-icon bg-danger">
-            <i class="fas fa-money-bill-wave text-white"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-lg-3 col-md-6">
-      <div class="card shadow-sm border-0 h-100 stat-card bg-warning-subtle">
-        <div class="card-body d-flex justify-content-between align-items-center">
-          <div>
-            <h4 class="fw-bold text-warning" [dir]="isRtl ? 'rtl' : 'ltr'">
-              {{ summaryBalance.totalHtToPay | number:'1.2-2' }} {{ 'dh' | translate }}
-            </h4>
-            <p class="text-black mb-1 small">
-              {{ "summary-balance.total_ht" | translate }}
-            </p>
-          </div>
-          <div class="stat-icon bg-warning">
-            <i class="fas fa-coins text-white"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row g-3 mt-5">
-    <div class="col-6">
-      <div class="card shadow-sm border-0 h-100 stat-card">
-        <div class="card-header">
-          <h4 class="fw-bold text-info mb-0 text-center">
-            {{ "last-invoices" | translate : { x: 5 } }}
-          </h4>
-        </div>
-        <div class="card-body p-2" [dir]="isRtl ? 'rtl' : 'ltr'">
-          <table class="table table-sm m-0">
-            <thead>
-              <tr>
-                <th class="col">{{ 'code' | translate }}</th>
-                <th class="col">{{ 'date' | translate }}</th>
-                <th class="col">{{ 'customer' | translate }}</th>
-                <th class="col">{{ 'amount' | translate }}</th>
-              </tr>
-            </thead>
-            @for (invoice of invoices; track invoice.id) {
-              <tr>
-                <td>
-                  <span class="btn btn-link m-0 p-0" [routerLink]="'/invoices/details/' + invoice.id">
-                    {{ invoice.code }}
-                  </span>
-                </td>
-                <td>{{ invoice.date | date : 'dd/MM/yyyy' }}</td>
-                <td>{{ invoice.customer.name }} <fa-icon icon="star" class="text-warning mx-1" *ngIf="invoice.customer.hasLoyaltyCard" /></td>
-                <td>
-                  {{ (invoice.customer.hasLoyaltyCard ? invoice.totalTTCAfterDiscount : invoice.totalTTC) | number:'1.2-2' }}
-                  {{ 'dh' | translate }}
-                </td>
-              </tr>
-            } @empty {
-              <tr>
-                <td colspan="4">{{ 'no_data' | translate }}</td>
-              </tr>
-            }
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-6">
-      <div class="card shadow-sm border-0 h-100 stat-card">
-        <div class="card-header">
-          <h4 class="fw-bold text-info mb-0 text-center">
-              {{ "most-dealt-with-customers" | translate }}
-          </h4>
-        </div>
-        <div class="card-body p-2" [dir]="isRtl ? 'rtl' : 'ltr'">
-          <table class="table table-sm m-0">
-            <thead>
-              <tr>
-                <th class="col">{{ 'customer' | translate }}</th>
-                <th class="col">{{ 'number-of-operations' | translate }}</th>
-                <th class="col">{{ 'total-spending' | translate }}</th>
-                <th class="col">{{ 'date-of-last-operation' | translate }}</th>
-              </tr>
-            </thead>
-            @for (topCustomer of topCustomers; track topCustomer.customerId) {
-              <tr>
-                <td>
-                  <span class="btn btn-link m-0 p-0" [routerLink]="'/customers/details/' + topCustomer.customerId">
-                    {{ topCustomer.customerName }} <fa-icon icon="star" class="text-warning mx-1" *ngIf="topCustomer.hasLoyaltyCard" />
-                  </span>
-                </td>
-                <td>{{ topCustomer.totalOperations }}</td>
-                <td>{{ topCustomer.totalPayments | number :'1.2-2' }} {{ 'dh' | translate }}</td>
-                <td>{{ topCustomer.lastOperationDate | date : 'dd/MM/yyyy' }}</td>
-              </tr>
-            } @empty {
-              <tr>
-                <td colspan="4">{{ 'no_data' | translate }}</td>
-              </tr>
-            }
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row g-3 mt-3">
-    <div class="col">
-      <div class="card shadow-sm border-0 h-100 stat-card">
-        <div class="card-header">
-          <h4 class="fw-bold text-info mb-0 text-center">
-            {{ "most-requested-services" | translate }}
-          </h4>
-        </div>
-        <div class="card-body d-flex justify-content-between p-2" [dir]="isRtl ? 'rtl' : 'ltr'">
-          <!-- most requested services as list -->
-          <table class="table table-sm m-0">
-            <thead>
-              <tr>
-                <th class="col text-center">{{ 'service' | translate }}</th>
-                <th class="col text-center">{{ 'number-of-operations' | translate }}</th>
-              </tr>
-            </thead>
-            @for (topService of topServices; track topService.id) {
-              <tr>
-                <td class="text-center">
-                  <span class="btn btn-link m-0 p-0" [routerLink]="'/services/details/' + topService.id">
-                    {{ topService.code }} - {{ topService.name }}
-                  </span>
-                </td>
-                <td class="text-center">{{ topService.totalRequests }}</td>
-              </tr>
-            } @empty {
-              <tr>
-                <td colspan="2" class="text-center">{{ 'no_data_exists' | translate }}</td>
-              </tr>
-            }
-          </table>
-
-          <!-- most requested services as chart -->
-<!--          <div>-->
-<!--            <canvas #topServicesChart *ngIf="topServices.length > 0"></canvas>-->
-<!--          </div>-->
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- END New Arrivals -->
 } @else {
-  <div class="text-center mt-5 mb-5">
-    <div class="spinner-grow spinner-grow-sm text-success" role="status"></div>
-    <span class="h6 text-success">{{ 'loading' | translate }}</span>
+  <div class="spinner-border text-primary" role="status">
   </div>
 }

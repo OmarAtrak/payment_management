@@ -1,5 +1,3 @@
-import * as arabicReshaper from 'arabic-persian-reshaper';
-import bidi from 'bidi-js';
 import {Tax} from "../modules/tax/model/tax";
 import {Unit} from "../modules/unit/model/unit";
 import {Category} from "../modules/category/model/category";
@@ -10,7 +8,6 @@ export class Product {
   private _name: string;
   private _description: string;
   private _descriptionHtml: string;
-  private _priceMin: number;
   private _price: number;
   private _active: boolean;
   private _tax: Tax;
@@ -58,13 +55,6 @@ export class Product {
   }
   set descriptionHtml(value: string) {
     this._descriptionHtml = value;
-  }
-
-  get priceMin(): number {
-    return this._priceMin;
-  }
-  set priceMin(value: number) {
-    this._priceMin = value;
   }
 
   get price(): number {
@@ -117,7 +107,6 @@ export class Product {
       name: this.name,
       description: this.description,
       descriptionHtml: this.descriptionHtml,
-      priceMin: this.priceMin,
       price: this.price,
       active: this.active ?? true,
       tax: this.tax ? this.tax.toJson : null,
@@ -133,7 +122,6 @@ export class Product {
     product.name = json.name;
     product.description = json.description;
     product.descriptionHtml = json.descriptionHtml;
-    product.priceMin = json.priceMin;
     product.price = json.price;
     product.active = json.active;
 

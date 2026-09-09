@@ -429,5 +429,12 @@
   "loyalty-card": "Loyalty Card",
   "loyalty-points": "Loyalty Points",
   "loyalty-discount": "Loyalty Discount",
-  "after_discount": "After Discount"
+  "after_discount": "After Discount",
+  "add_to_cart": "Add to Cart",
+  "cart": "Cart",
+  "checkout": "Checkout",
+  "total_cart": "Total Cart",
+  "cart_items": "Cart Items",
+  "remove_from_cart": "Remove from Cart",
+  "clear_cart": "Clear Cart"
 }

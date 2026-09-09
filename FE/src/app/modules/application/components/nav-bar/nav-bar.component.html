@@ -1,58 +1,76 @@
-<div class="d-flex align-items-center">
-  <!-- Language Switcher -->
-  <button (click)="changeLanguage()" class="btn rounded-circle p-0 mx-3 me-3">
-    <img
-      height="40"
-      [src]="'assets/' + (currentLanguage === 'ar' ? 'en-US' : 'ar-AR') + '.png'"
-      [title]="currentLanguage === 'ar' ? ('en-US' | translate) : ('ar-AR' | translate)"
-    />
-  </button>
+<!-- Header Content -->
+<div class="content-header">
+  <!-- Left Section -->
+  <div class="d-flex align-items-center">
+    <!-- Category -->
 
-  <!-- User Dropdown -->
-  <div class="dropdown d-inline-block ms-2">
-    <button
-      (click)="showHideUserDropdown()"
-      type="button"
-      class="btn btn-sm btn-alt-secondary d-flex align-items-center show"
-      id="page-header-user-dropdown"
-    >
-      <img class="rounded-circle" src="../../../../../assets/media/avatars/avatar10.jpg" alt="Header Avatar" style="width: 21px;">
-      <span class="d-none d-sm-inline-block ms-2 me-2">{{ currentUser.fullName }}</span>
-      <fa-icon class="d-none d-sm-inline-block opacity-50 ms-1 mt-1" icon="angle-down"></fa-icon>
+    <!-- END Category -->
+  </div>
+  <!-- END Left Section -->
+
+
+  <!-- Right Section -->
+  <div class="d-flex align-items-center">
+<!--    <div *ngIf="loadingService.isLoading" class="spinner-border text-primary" role="status">-->
+<!--    </div>-->
+
+    <!-- Language Switcher -->
+    <button (click)="changeLanguage()" class="btn rounded-circle p-0 mx-3 me-3">
+      <img
+        height="40"
+        [src]="'assets/' + (currentLanguage === 'ar' ? 'en-US' : 'ar-AR') + '.png'"
+        [title]="currentLanguage === 'ar' ? ('en-US' | translate) : ('ar-AR' | translate)"
+      />
     </button>
 
-    <div id="userDropdown" class="d-none">
-      <div
-        id="dropdown"
-        class="dropdown-menu dropdown-menu-md dropdown-menu-end p-0 border-0 show"
-        style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 33px);"
-        data-popper-placement="bottom-end"
+    <!-- User Dropdown -->
+    <div class="dropdown d-inline-block ms-2" *ngIf="authService.isLoggedIn">
+      <button
+        (click)="showHideUserDropdown()"
+        type="button"
+        class="btn btn-sm btn-alt-secondary d-flex align-items-center show"
+        id="page-header-user-dropdown"
       >
-        <div class="p-3 text-center bg-body-light border-bottom rounded-top">
-          <img class="img-avatar img-avatar48 img-avatar-thumb" src="../../../../../assets/media/avatars/avatar10.jpg" alt="">
-          <p class="mt-2 mb-0 fw-medium">{{ currentUser.fullName }}</p>
-          <div *ngFor="let role of currentUser.roles">
-            <p class="mb-0 text-muted fs-sm fw-medium">{{ capitalizeFirstLetter(role.name) }}</p>
+        <img class="rounded-circle" src="../../../../../assets/media/avatars/avatar10.jpg" alt="Header Avatar" style="width: 21px;">
+        <span class="d-none d-sm-inline-block ms-2 me-2">{{ currentUser.fullName }}</span>
+        <fa-icon class="d-none d-sm-inline-block opacity-50 ms-1 mt-1" icon="angle-down"></fa-icon>
+      </button>
+
+      <div id="userDropdown" class="d-none">
+        <div
+          id="dropdown"
+          class="dropdown-menu dropdown-menu-md dropdown-menu-end p-0 border-0 show"
+          style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 33px);"
+          data-popper-placement="bottom-end"
+        >
+          <div class="p-3 text-center bg-body-light border-bottom rounded-top">
+            <img class="img-avatar img-avatar48 img-avatar-thumb" src="../../../../../assets/media/avatars/avatar10.jpg" alt="">
+            <p class="mt-2 mb-0 fw-medium">{{ currentUser.fullName }}</p>
+            <div *ngFor="let role of currentUser.roles">
+              <p class="mb-0 text-muted fs-sm fw-medium">{{ capitalizeFirstLetter(role.name) }}</p>
+            </div>
           </div>
-        </div>
 
-        <div class="p-2">
-          <button (click)="showHideUserDropdown()" class="dropdown-item d-flex align-items-center justify-content-left" [routerLink]="'/profile'">
-            <fa-icon class="nav-main-link-icon" icon="address-card"></fa-icon>
-            <span class="fs-sm fw-medium mx-2">{{ 'profile' | translate }}</span>
-          </button>
-        </div>
+          <div class="p-2">
+            <button (click)="showHideUserDropdown()" class="dropdown-item d-flex align-items-center justify-content-left" [routerLink]="'/profile'">
+              <fa-icon class="nav-main-link-icon" icon="address-card"></fa-icon>
+              <span class="fs-sm fw-medium mx-2">{{ 'profile' | translate }}</span>
+            </button>
+          </div>
 
-        <div role="separator" class="dropdown-divider m-0"></div>
+          <div role="separator" class="dropdown-divider m-0"></div>
 
-        <div class="p-2">
-          <button (click)="logout()" class="dropdown-item d-flex align-items-center justify-content-left">
-            <fa-icon icon="right-from-bracket"></fa-icon>
-            <span class="fs-sm fw-medium mx-2">{{ 'logout' | translate }}</span>
-          </button>
+          <div class="p-2">
+            <button (click)="logout()" class="dropdown-item d-flex align-items-center justify-content-left">
+              <fa-icon icon="right-from-bracket"></fa-icon>
+              <span class="fs-sm fw-medium mx-2">{{ 'logout' | translate }}</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
+    <!-- END User Dropdown -->
   </div>
-  <!-- END User Dropdown -->
+  <!-- END Right Section -->
 </div>
+<!-- END Header Content -->

@@ -30,15 +30,6 @@
 
             <div class="row mb-2">
               <div class="col">
-                <label class="form-label" for="_priceMin"><span>{{ 'price-min' | translate }}</span></label>
-                <input type="number" class="form-control" id="_priceMin" formControlName="priceMin" min="0" autocomplete="off">
-                <div class="row mt-1">
-                  <span *ngIf="form.get('priceMin')?.value < 0" class="text-danger">
-                    {{ 'price-must-be-greater-than-to-0' | translate }}
-                  </span>
-                </div>
-              </div>
-              <div class="col">
                 <label class="form-label" for="_price"><span>{{ 'price' | translate }} </span> <span class="text-danger">*</span></label>
                 <input type="number" class="form-control" id="_price" formControlName="price" min="0" autocomplete="off">
                 <div class="row mt-1">

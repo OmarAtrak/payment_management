@@ -20,7 +20,6 @@ public class Product {
     private String description;
     @Lob
     private String descriptionHtml;
-    private Double priceMin;
     private Double price;
     private Boolean active;
     @ManyToOne
