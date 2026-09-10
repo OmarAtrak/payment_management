@@ -1,5 +1,5 @@
 @if (isLoading) {
-  <div class="row items-push block block-content">
+  <div class="row items-push block block-content rounded">
     <app-pagination *ngIf="products.length > 0" [pagination]="pagination" (reloadData)="reloadData($event)"></app-pagination>
     @for (product of products; track product.id) {
       <div class="col-md-6 col-xl-4">
@@ -26,7 +26,7 @@
               <div class="fw-semibold float-end ms-1">{{ product.price | number : '2.2-2' }} {{ 'dh' | translate }}</div>
               <a class="h6" [routerLink]="'/products/details/' + product.id">{{ product.name }}</a>
             </div>
-            <p class="fs-sm text-muted">{{ product.description }}</p>
+<!--            <p class="fs-sm text-muted">{{ product.description }}</p>-->
           </div>
         </div>
       </div>
