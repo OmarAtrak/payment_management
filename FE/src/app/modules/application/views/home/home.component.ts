@@ -17,6 +17,7 @@ import {Chart} from "chart.js";
 import {ProductService} from "../../../product/service/product.service";
 import {Product} from "../../../product/model/product";
 import {ProductPage} from "../../../product/model/product-page";
+import {Pagination} from "../../../shared/model/pagination";
 
 @Component({
   selector: 'app-home',
@@ -29,8 +30,7 @@ export class HomeComponent {
   products: Product[] = [];
   isLoadingProducts: boolean = false;
 
-  page: number = 1;
-  pageSize: number = 10;
+  pagination: Pagination = new Pagination();
 
   capitalizeFirstLetter = capitalizeFirstLetter;
 
@@ -40,7 +40,6 @@ export class HomeComponent {
 
   constructor(
     private readonly notificationService: NotificationService,
-    private readonly translate: TranslateService,
     private readonly productService: ProductService,
   ) {}
 
@@ -52,10 +51,11 @@ export class HomeComponent {
     this.products = [];
     this.isLoadingProducts = false;
 
-    this.productService.getAll(this.page, this.pageSize)
+    this.productService.getAll(this.pagination.currentPage, this.pagination.pageSize)
       .subscribe({
         next: (response: ProductPage) => {
           this.products = response.content.map((item => Product.fromJson(item)));
+          this.pagination.totalItems = response.totalElements;
           this.isLoadingProducts = true;
         },
         error: (err) => {
@@ -63,5 +63,10 @@ export class HomeComponent {
           this.notificationService.showServerErrorMessage();
         }
       });
+  }
+
+  reloadData(pagination: Pagination): void {
+    this.pagination = pagination;
+    this.getProducts();
   }
 }

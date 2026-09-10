@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between">
-  <div class="p-3">
+  <div>
     <select
       #pageSize id="selectPageSize"
       class="form-select form-select-sm"
@@ -13,7 +13,7 @@
 
   <div class="d-flex justify-content-center">
     <nav aria-label="Page navigation">
-      <ul class="pagination justify-content-center pagination-sm p-3">
+      <ul class="pagination justify-content-center pagination-sm">
         <!-- first page -->
         <li class="page-item" [ngClass]="{ disabled: pagination.currentPage == 1 }">
           <button (click)="setPage(1)" class="page-link">

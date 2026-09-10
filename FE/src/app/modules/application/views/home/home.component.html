@@ -1,9 +1,10 @@
 @if (isLoading) {
-  <div class="row items-push">
+  <div class="row items-push block block-content">
+    <app-pagination *ngIf="products.length > 0" [pagination]="pagination" (reloadData)="reloadData($event)"></app-pagination>
     @for (product of products; track product.id) {
       <div class="col-md-6 col-xl-4">
-        <div class="block block-rounded h-100 mb-0">
-          <div class="block-content p-1">
+        <div class="card h-100 mb-0">
+          <div class="card-body p-1">
             <div class="options-container">
               <div class="d-flex justify-content-center">
                 <fa-icon icon="box" size="7x"></fa-icon>
@@ -20,7 +21,7 @@
               </div>
             </div>
           </div>
-          <div class="block-content">
+          <div class="card-footer">
             <div class="mb-1">
               <div class="fw-semibold float-end ms-1">{{ product.price | number : '2.2-2' }} {{ 'dh' | translate }}</div>
               <a class="h6" [routerLink]="'/products/details/' + product.id">{{ product.name }}</a>
@@ -29,7 +30,17 @@
           </div>
         </div>
       </div>
+    } @empty {
+      <div class="col-12">
+        <div class="alert alert-info d-flex align-items-center" role="alert">
+          <i class="fa fa-info-circle me-2"></i>
+          <div>
+            {{ 'no_data_exists' | translate }}
+          </div>
+        </div>
+      </div>
     }
+    <app-pagination *ngIf="products.length > 0" [pagination]="pagination" (reloadData)="reloadData($event)"></app-pagination>
   </div>
   <!-- END New Arrivals -->
 } @else {
